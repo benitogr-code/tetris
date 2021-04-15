@@ -11,10 +11,21 @@ Application::Application()
 Application::~Application() {
 }
 
-bool Application::init() {
-  bool success = onInit();
+bool Application::init(const WindowDesc& desc) {
+  _window.reset(new Window(desc));
+  if (!_window->init()) {
+    LOG_ERROR("Failed to initialize window");
 
-  return success;
+    return false;
+  }
+
+  if (!onInit()) {
+    LOG_ERROR("Failed to initialize application");
+
+    return false;
+  }
+
+  return true;
 }
 
 void Application::shutdown() {
@@ -22,18 +33,6 @@ void Application::shutdown() {
 }
 
 void Application::run() {
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-
-  const uint32_t flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
-  SDL_Window *window = SDL_CreateWindow("Tetris", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, flags);
-  SDL_GLContext context = SDL_GL_CreateContext(window);
-  gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress);
-
-  LOG_INFO("SDL window created");
-
   while (_running) {
     onUpdate();
 
@@ -47,9 +46,6 @@ void Application::run() {
       }
     }
 
-    SDL_GL_SwapWindow(window);
+    _window->refresh();
   }
-
-  SDL_GL_DeleteContext(context);
-  SDL_DestroyWindow(window);
 }

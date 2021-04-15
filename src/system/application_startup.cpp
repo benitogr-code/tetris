@@ -15,7 +15,7 @@ int startApplication(const StartupParams& params) {
   }
 
   auto application = params.appCreatorFunc();
-  if (application->init()) {
+  if (application->init(params.windowDesc)) {
     application->run();
   }
 

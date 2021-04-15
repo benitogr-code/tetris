@@ -11,4 +11,4 @@ add_subdirectory("dependencies")
 file(GLOB_RECURSE GAME_SOURCE_FILES "src/*.cpp" "src/*.h")
 
 add_executable(${GAME_EXECUTABLE} ${GAME_SOURCE_FILES})
-target_link_libraries(${GAME_EXECUTABLE} PRIVATE SDL2 glad)
+target_link_libraries(${GAME_EXECUTABLE} PRIVATE SDL2 glad spdlog)

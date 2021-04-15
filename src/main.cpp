@@ -1,11 +1,13 @@
-#include <iostream>
-
 #include <glad/glad.h>
 #include <SDL.h>
 
+#include "system/Logger.h"
+
 int main(int argsCount, char** args) {
+  Logger::init();
+
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-    std::cerr << "Fail to init SDL" << std::endl;
+    LOG_ERROR("Fail to initialize SDL");
 
     return -1;
   }
@@ -19,6 +21,8 @@ int main(int argsCount, char** args) {
   SDL_Window *window = SDL_CreateWindow("Tetris", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, flags);
   SDL_GLContext context = SDL_GL_CreateContext(window);
   gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress);
+
+  LOG_INFO("SDL window created");
 
   bool running = true;
   while (running) {
@@ -34,6 +38,8 @@ int main(int argsCount, char** args) {
 
     SDL_GL_SwapWindow(window);
   }
+
+  LOG_INFO("Closing application");
 
   SDL_GL_DeleteContext(context);
   SDL_DestroyWindow(window);

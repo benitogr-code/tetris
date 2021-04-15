@@ -1,5 +1,4 @@
 #include "application.h"
-#include "logger.h"
 
 #include <SDL.h>
 

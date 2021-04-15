@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.16)
 project(Tetris VERSION 0.1.0)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -11,4 +11,5 @@ add_subdirectory("dependencies")
 file(GLOB_RECURSE GAME_SOURCE_FILES "src/*.cpp" "src/*.h")
 
 add_executable(${GAME_EXECUTABLE} ${GAME_SOURCE_FILES})
+target_precompile_headers(${GAME_EXECUTABLE} PRIVATE src/pch.h)
 target_link_libraries(${GAME_EXECUTABLE} PRIVATE SDL2 glad spdlog)

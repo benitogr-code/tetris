@@ -1,5 +1,4 @@
 #include "application.h"
-#include "logger.h"
 
 #include <glad/glad.h>
 #include <SDL.h>

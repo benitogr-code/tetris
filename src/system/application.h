@@ -1,5 +1,3 @@
-#include <functional>
-#include <memory>
 #include "window.h"
 
 class Application {

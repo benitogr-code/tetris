@@ -48,6 +48,6 @@ bool Window::init() {
   return true;
 }
 
-void Window::refresh() {
+void Window::update() {
   SDL_GL_SwapWindow(_window);
 }

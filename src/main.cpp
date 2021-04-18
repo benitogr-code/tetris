@@ -2,14 +2,18 @@
 
 class DemoApp: public Application {
 protected:
-  bool onInit() {
+  virtual bool onInit() override {
     return true;
   }
 
-  void onShutdown() {
+  virtual void onShutdown() override {
   }
 
-  void onUpdate() {
+  virtual void onInputEvent(const InputEvent& event) override {
+    LOG_INFO("onInputEvent: Key {0} | State {1}", event.keyId, event.state);
+  }
+
+  virtual void onUpdate() override {
   }
 };
 

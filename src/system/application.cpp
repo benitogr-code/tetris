@@ -1,4 +1,5 @@
 #include "application.h"
+#include "input.h"
 
 #include <glad/glad.h>
 #include <SDL.h>
@@ -18,6 +19,9 @@ bool Application::init(const WindowDesc& desc) {
     return false;
   }
 
+  _input.reset(new Input());
+  _input->registerCallback(std::bind(&Application::onInputEvent, this, std::placeholders::_1));
+
   if (!onInit()) {
     LOG_ERROR("Failed to initialize application");
 
@@ -33,18 +37,32 @@ void Application::shutdown() {
 
 void Application::run() {
   while (_running) {
+    // Handle input + events
+    SDL_PumpEvents();
+
+    checkSystemEvents();
+    _input->update();
+
+    // Run logic
     onUpdate();
 
+    // Render
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    SDL_Event Event;
-    while (SDL_PollEvent(&Event)) {
-      if (Event.type == SDL_QUIT) {
-        _running = false;
-      }
-    }
+    _window->update();
+  }
+}
 
-    _window->refresh();
+void Application::checkSystemEvents() {
+  const int maxEvents = 16;
+  SDL_Event events[maxEvents];
+  const int eventsRead = SDL_PeepEvents(events, maxEvents, SDL_GETEVENT, SDL_QUIT, SDL_QUIT);
+
+  for (int i = 0; i < eventsRead; ++i) {
+    if (events[i].type == SDL_QUIT) {
+      _running = false;
+      break;
+    }
   }
 }

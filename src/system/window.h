@@ -1,4 +1,6 @@
-# include <string>
+#pragma once
+
+#include <string>
 
 struct SDL_Window;
 
@@ -14,7 +16,7 @@ public:
   ~Window();
 
   bool init();
-  void refresh();
+  void update();
 
 private:
   typedef void* SDL_GLContext;

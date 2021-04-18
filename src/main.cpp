@@ -1,24 +1,7 @@
-#include "system/application.h"
-
-class DemoApp: public Application {
-protected:
-  virtual bool onInit() override {
-    return true;
-  }
-
-  virtual void onShutdown() override {
-  }
-
-  virtual void onInputEvent(const InputEvent& event) override {
-    LOG_INFO("onInputEvent: Key {0} | State {1}", event.keyId, event.state);
-  }
-
-  virtual void onUpdate() override {
-  }
-};
+#include "game/game_app.h"
 
 Application* createApplication() {
-  return new DemoApp();
+  return new GameApp();
 }
 
 int main(int argsCount, char** args) {

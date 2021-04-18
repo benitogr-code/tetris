@@ -14,4 +14,4 @@ file(GLOB_RECURSE GAME_SOURCE_FILES "src/*.cpp" "src/*.h")
 
 add_executable(${GAME_EXECUTABLE} ${GAME_SOURCE_FILES})
 target_precompile_headers(${GAME_EXECUTABLE} PRIVATE src/pch.h)
-target_link_libraries(${GAME_EXECUTABLE} PRIVATE SDL2 glad spdlog)
+target_link_libraries(${GAME_EXECUTABLE} PRIVATE SDL2 glad glm spdlog)

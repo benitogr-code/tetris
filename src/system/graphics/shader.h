@@ -21,7 +21,10 @@ public:
   Shader(const char* name);
   ~Shader();
 
+  const std::string& getName() const { return _name; }
+
   void use();
+
   static ShaderRef Create(const ShaderCreateParams& params);
 
 private:

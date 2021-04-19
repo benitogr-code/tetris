@@ -1,8 +1,6 @@
 #include "shader.h"
+#include "system/file_utils.h"
 
-#include <fstream>
-#include <sstream>
-#include <iostream>
 #include <glad/glad.h>
 
 // Helpers
@@ -73,25 +71,14 @@ void Shader::buildFromSources(const char* vsSources, const char* fsSources) {
 /*static*/ ShaderRef Shader::Create(const ShaderCreateParams& params) {
   auto shader = std::make_shared<Shader>(params.name);
 
-  std::ifstream vsFile, fsFile;
-  vsFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-  fsFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+  std::vector<char> vsBuffer, fsBuffer;
+  if (FileUtils::readTextFile(params.vertexShaderPath, vsBuffer)
+    && FileUtils::readTextFile(params.fragmentShaderPath, fsBuffer)) {
 
-  try {
-    vsFile.open(params.vertexShaderPath);
-    fsFile.open(params.fragmentShaderPath);
-
-    std::stringstream vsStream, fsStream;
-    vsStream << vsFile.rdbuf();
-    fsStream << fsFile.rdbuf();
-
-    vsFile.close();
-    fsFile.close();
-
-    shader->buildFromSources(vsStream.str().c_str(), fsStream.str().c_str());
+    shader->buildFromSources(vsBuffer.data(), fsBuffer.data());
   }
-  catch (std::ifstream::failure& e) {
-    LOG_ERROR("Error loading shader '{0}'. Reason: {1}", params.name, e.code().message());
+  else {
+    LOG_ERROR("Error loading shader '{}'", params.name);
   }
 
   return shader;

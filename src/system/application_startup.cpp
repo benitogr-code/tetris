@@ -1,4 +1,5 @@
 #include "application.h"
+#include "file_utils.h"
 
 #include <SDL.h>
 
@@ -6,6 +7,8 @@ int startApplication(const StartupParams& params) {
   Logger::init();
 
   LOG_INFO("Initializing application...");
+
+  FileUtils::init();
 
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     LOG_ERROR("Fail to initialize SDL");

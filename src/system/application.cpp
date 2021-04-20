@@ -46,10 +46,7 @@ void Application::run() {
     // Run logic
     onUpdate();
 
-    // Render
-    glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-
+    // Refresh window
     _window->update();
   }
 }

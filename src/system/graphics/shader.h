@@ -18,7 +18,6 @@ struct ShaderCreateParams {
 
 class Shader {
 public:
-  Shader(const char* name);
   ~Shader();
 
   const std::string& getName() const { return _name; }
@@ -28,6 +27,12 @@ public:
   static ShaderRef Create(const ShaderCreateParams& params);
 
 private:
+  Shader() = delete;
+  Shader(const Shader& shader) = delete;
+
+  Shader(const char* name);
+
+
   void buildFromSources(const char* vsSources, const char* fsSources);
 
 private:

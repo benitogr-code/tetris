@@ -15,7 +15,6 @@ struct TextureCreateParams {
 
 class Texture {
 public:
-  Texture();
   ~Texture();
 
   void bind();
@@ -23,6 +22,9 @@ public:
   static TextureRef Create(const TextureCreateParams& params);
 
 private:
+  Texture();
+  Texture(const Texture& texture) = delete;
+
   void loadImage(const ImageData& image);
 
 private:

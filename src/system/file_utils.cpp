@@ -20,7 +20,7 @@ bool FileUtils::readTextFile(const char* filePath, std::vector<char>& data) {
   std::ifstream inStream(absolutePath);
 
   if (!inStream) {
-    LOG_WARN("Failed to open text file {}", absolutePath);
+    LOG_WARN("Failed to open text file {0}, {1}", absolutePath, strerror(errno));
     return false;
   }
 
@@ -48,7 +48,7 @@ bool FileUtils::readPngFile(const char* filePath, ImageData& data) {
   unsigned char* pData = stbi_load(absolutePath.c_str(), &width, &height, &components, kRequiredComponents);
 
   if (pData == nullptr) {
-    LOG_WARN("Failed to load image file {}", absolutePath);
+    LOG_WARN("Failed to load image file {0}, {1}", absolutePath, strerror(errno));
     return false;
   }
 

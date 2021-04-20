@@ -13,4 +13,5 @@
 #include <glm/vec4.hpp>
 
 // Others
+#include "system/common.h"
 #include "system/logger.h"

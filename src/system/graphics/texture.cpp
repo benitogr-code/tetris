@@ -31,7 +31,7 @@ void Texture::loadImage(const ImageData& image) {
 }
 
 /*static*/ TextureRef Texture::Create(const TextureCreateParams& params) {
-  auto texture = std::make_shared<Texture>();
+  TextureRef texture(new Texture());
 
   ImageData image;
   if (FileUtils::readPngFile(params.filePath, image)) {

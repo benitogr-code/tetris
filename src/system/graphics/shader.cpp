@@ -69,7 +69,7 @@ void Shader::buildFromSources(const char* vsSources, const char* fsSources) {
 }
 
 /*static*/ ShaderRef Shader::Create(const ShaderCreateParams& params) {
-  auto shader = std::make_shared<Shader>(params.name);
+  ShaderRef shader(new Shader(params.name));
 
   std::vector<char> vsBuffer, fsBuffer;
   if (FileUtils::readTextFile(params.vertexShaderPath, vsBuffer)

@@ -55,12 +55,12 @@ BufferLayout::BufferLayout(std::initializer_list<BufferItem> items)
 }
 
 // VertexBuffer
-VertexBuffer::VertexBuffer(const uint8_t* data, uint32_t size, const BufferLayout& layout)
+VertexBuffer::VertexBuffer(const void* data, uint32_t size, const BufferLayout& layout)
   : _id(0) {
 
   glGenBuffers(1, &_id);
   glBindBuffer(GL_ARRAY_BUFFER, _id);
-  glBufferData(_id, size, data, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
 
   _layout = layout;
 }
@@ -69,7 +69,7 @@ VertexBuffer::~VertexBuffer() {
   glDeleteBuffers(1, &_id);
 }
 
-/*static*/ VertexBufferRef VertexBuffer::Create(const uint8_t* data, uint32_t size, const BufferLayout& layout) {
+/*static*/ VertexBufferRef VertexBuffer::Create(const void* data, uint32_t size, const BufferLayout& layout) {
   VertexBufferRef buffer(new VertexBuffer(data, size, layout));
 
   return buffer;
@@ -80,7 +80,7 @@ IndexBuffer::IndexBuffer(const uint32_t* indices, uint32_t count)
   : _count(count) {
   glGenBuffers(1, &_id);
   glBindBuffer(GL_ARRAY_BUFFER, _id);
-  glBufferData(_id, sizeof(uint32_t) * count, indices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(uint32_t) * count, indices, GL_STATIC_DRAW);
 }
 
 IndexBuffer::~IndexBuffer() {
@@ -104,6 +104,7 @@ VertexArray::VertexArray(VertexBufferRef vertexBuffer, IndexBufferRef indexBuffe
   for (uint32_t i = 0; i < layout.itemCount(); ++i) {
     const auto& item = layout.itemAt(i);
 
+    const int offset = item.offset;
     switch (item.type)
     {
     case BufferItemType::Float:
@@ -111,20 +112,22 @@ VertexArray::VertexArray(VertexBufferRef vertexBuffer, IndexBufferRef indexBuffe
     case BufferItemType::Float3:
     case BufferItemType::Float4:
       {
-        glEnableVertexAttribArray(i);
-        glVertexAttribPointer(i,
+        glVertexAttribPointer(
+          i,
           item.getComponentCount(),
           BufferItemTypeToOpenGLBaseType(item.type),
           GL_FALSE,
           layout.stride(),
-          (const void*)item.offset
+          (const void*)offset
         );
+        glEnableVertexAttribArray(i);
       }
       break;
     }
   }
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer->id());
+  glBindVertexArray(0);
 
   _vertexBuffer = vertexBuffer;
   _indexBuffer = indexBuffer;

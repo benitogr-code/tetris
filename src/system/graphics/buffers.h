@@ -62,13 +62,13 @@ public:
     return _layout;
   }
 
-  static VertexBufferRef Create(const uint8_t* data, uint32_t size, const BufferLayout& layout);
+  static VertexBufferRef Create(const void* data, uint32_t size, const BufferLayout& layout);
 
 private:
   VertexBuffer() = delete;
   VertexBuffer(const VertexBuffer& buffer) = delete;
 
-  VertexBuffer(const uint8_t* data, uint32_t size, const BufferLayout& layout);
+  VertexBuffer(const void* data, uint32_t size, const BufferLayout& layout);
 
 private:
   BufferLayout _layout;
@@ -112,7 +112,7 @@ public:
   void bind();
   void unbind();
 
-  const IndexBufferRef& indexBuffer() const { return _indexBuffer; }
+  const uint32_t indexCount() const { return _indexBuffer ? _indexBuffer->count() : 0; }
 
   static VertexArrayRef Create(VertexBufferRef vertexBuffer, IndexBufferRef indexBuffer);
 private:

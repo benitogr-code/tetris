@@ -43,6 +43,18 @@ void Shader::use() {
   glUseProgram(_id);
 }
 
+void Shader::setUniformFloat(const char* name, float value) {
+  glUniform1f(getUniformLocation(name), value);
+}
+
+void Shader::setUniformVec3(const char* name, const glm::vec3& value){
+  glUniform3fv(getUniformLocation(name), 1, glm::value_ptr(value));
+}
+
+void Shader::setUniformMatrix4(const char* name, const glm::mat4x4& value) {
+  glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, glm::value_ptr(value));
+}
+
 void Shader::buildFromSources(const char* vsSources, const char* fsSources) {
   // Vertex Shader
   unsigned int vertex = glCreateShader(GL_VERTEX_SHADER);
@@ -66,6 +78,18 @@ void Shader::buildFromSources(const char* vsSources, const char* fsSources) {
 
   glDeleteShader(vertex);
   glDeleteShader(fragment);
+}
+
+int Shader::getUniformLocation(const char* name) {
+  auto iter = _uniformsCache.find(name);
+
+  if (iter != _uniformsCache.end())
+    return iter->second;
+
+  GLint location = glGetUniformLocation(_id, name);
+  _uniformsCache.insert(UniformLocations::value_type(name, location));
+
+  return location;
 }
 
 /*static*/ ShaderRef Shader::Create(const ShaderCreateParams& params) {

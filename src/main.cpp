@@ -7,8 +7,8 @@ Application* createApplication() {
 int main(int argsCount, char** args) {
   StartupParams params;
   params.appCreatorFunc = createApplication;
-  params.windowDesc.width = 800;
-  params.windowDesc.height = 600;
+  params.windowDesc.width = 1280;
+  params.windowDesc.height = 720;
   params.windowDesc.title = "Tetris";
 
   return startApplication(params);

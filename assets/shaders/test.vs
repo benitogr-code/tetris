@@ -1,11 +1,13 @@
-#version 410 core
+#version 330 core
 
-layout (location = 0) in vec3 inPos;
-layout (location = 1) in vec2 inTextCoord;
+layout (location = 0) in vec3 in_position;
+layout (location = 1) in vec2 in_textCoord;
 
-out vec2 TextCoord;
+uniform mat4 u_viewProjection;
+
+out vec2 v_textCoord;
 
 void main() {
-  TextCoord = inTextCoord;
-  gl_Position = vec4(inPos.x, inPos.y, inPos.z, 1.0);
+  v_textCoord = in_textCoord;
+  gl_Position = u_viewProjection * vec4(in_position.x, in_position.y, in_position.z, 1.0);
 }

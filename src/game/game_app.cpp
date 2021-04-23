@@ -34,6 +34,8 @@ bool GameApp::onInit() {
   textureParams.filePath = "textures/test.png";
   _texture = Texture::Create(textureParams);
 
+  _camera.setAspectRatio(1.6f/0.9f);
+
   return true;
 }
 
@@ -45,6 +47,16 @@ void GameApp::onInputEvent(const InputEvent& event) {
 }
 
 void GameApp::onUpdate() {
+  static float time = 0.0f;
+
+  time += 1.0f/60.0f;
+
+  const float sinValue = sinf(time);
+  const float zoom = sinValue + 1.25f;
+
+  //_camera.setPosition({0.0f, -sinValue * 0.6f});
+  _camera.setZoom(zoom);
+
   glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT);
 
@@ -53,6 +65,7 @@ void GameApp::onUpdate() {
 
   _texture->bind();
   _shader->use();
+  _shader->setUniformMatrix4("u_viewProjection", _camera.getViewProjectionMatrix());
   _vertexData->bind();
   glDrawElements(GL_TRIANGLES, _vertexData->indexCount(), GL_UNSIGNED_INT, 0);
 

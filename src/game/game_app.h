@@ -12,7 +12,7 @@ protected:
   virtual bool onInit() override;
   virtual void onShutdown() override;
   virtual void onInputEvent(const InputEvent& event) override;
-  virtual void onUpdate() override;
+  virtual void onUpdate(const UpdateContext& ctx) override;
 
 private:
   ShaderRef  _shader;

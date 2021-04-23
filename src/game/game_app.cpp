@@ -46,10 +46,10 @@ void GameApp::onInputEvent(const InputEvent& event) {
   LOG_INFO("onInputEvent: Key {0} | State {1}", event.keyId, event.state);
 }
 
-void GameApp::onUpdate() {
+void GameApp::onUpdate(const UpdateContext& ctx) {
   static float time = 0.0f;
 
-  time += 1.0f/60.0f;
+  time += ctx.frameTime;
 
   const float sinValue = sinf(time);
   const float zoom = sinValue + 1.25f;

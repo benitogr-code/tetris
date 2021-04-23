@@ -36,18 +36,30 @@ void Application::shutdown() {
 }
 
 void Application::run() {
+  uint64_t timeNow = SDL_GetPerformanceCounter();
+  uint64_t timeLast = 0;
+  uint32_t frameId = 0;
+
   while (_running) {
-    // Handle input + events
-    SDL_PumpEvents();
+    // Input + events
+    {
+      SDL_PumpEvents();
 
-    checkSystemEvents();
-    _input->update();
+      checkSystemEvents();
+      _input->update();
+    }
 
-    // Run logic
-    onUpdate();
+    // Update
+    {
+      frameId++;
+      timeLast = timeNow;
+      timeNow  = SDL_GetPerformanceCounter();
+      const auto deltaTime = (double)((timeNow - timeLast) / (double)SDL_GetPerformanceFrequency());
 
-    // Refresh window
-    _window->update();
+      onUpdate(UpdateContext(deltaTime, frameId));
+
+      _window->update();
+    }
   }
 }
 

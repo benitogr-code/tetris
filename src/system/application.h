@@ -3,6 +3,16 @@
 #include "input.h"
 #include "window.h"
 
+struct UpdateContext {
+  UpdateContext(float _frameTime, uint32_t _frameId)
+    : frameTime(_frameTime)
+    , frameId(_frameId) {
+  }
+
+  float    frameTime;
+  uint32_t frameId;
+};
+
 class Application {
 public:
   Application();
@@ -17,7 +27,7 @@ protected:
   virtual bool onInit() = 0;
   virtual void onShutdown() = 0;
   virtual void onInputEvent(const InputEvent& event) = 0;
-  virtual void onUpdate() = 0;
+  virtual void onUpdate(const UpdateContext& ctx) = 0;
 
 private:
   void checkSystemEvents();
@@ -25,7 +35,7 @@ private:
 private:
   std::unique_ptr<Window> _window;
   std::unique_ptr<Input> _input;
-  bool _running;
+  bool     _running;
 };
 
 typedef std::function<Application* ()> ApplicationCreator;

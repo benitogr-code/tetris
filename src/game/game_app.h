@@ -4,7 +4,8 @@
 #include "system/graphics/buffers.h"
 #include "system/graphics/camera_orthographic.h"
 #include "system/graphics/shader.h"
-#include "system/graphics/texture.h"
+
+#include "tetris/blocks.h"
 
 class GameApp: public Application {
 protected:
@@ -16,8 +17,8 @@ protected:
 
 private:
   ShaderRef  _shader;
-  TextureRef _texture;
   VertexArrayRef _vertexData;
 
   CameraOrthographic _camera;
+  BlockAtlas _blockAtlas;
 };

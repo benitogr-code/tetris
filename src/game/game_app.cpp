@@ -31,7 +31,7 @@ bool GameApp::onInit() {
   _shader = Shader::Create(shaderParams);
 
   TextureCreateParams textureParams;
-  textureParams.filePath = "textures/test.png";
+  textureParams.filePath = "textures/blocks.png";
   _texture = Texture::Create(textureParams);
 
   _camera.setAspectRatio(1.6f/0.9f);

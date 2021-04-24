@@ -56,7 +56,9 @@ BufferLayout::BufferLayout(std::initializer_list<BufferItem> items)
 
 // VertexBuffer
 VertexBuffer::VertexBuffer(const void* data, uint32_t size, const BufferLayout& layout)
-  : _id(0) {
+  : _id(0)
+  , _size(size)
+  , _flags(0) {
 
   glGenBuffers(1, &_id);
   glBindBuffer(GL_ARRAY_BUFFER, _id);
@@ -65,8 +67,37 @@ VertexBuffer::VertexBuffer(const void* data, uint32_t size, const BufferLayout& 
   _layout = layout;
 }
 
+VertexBuffer::VertexBuffer(uint32_t size, const BufferLayout& layout)
+  : _id(0)
+  , _size(size)
+  , _flags(0) {
+
+  glGenBuffers(1, &_id);
+  glBindBuffer(GL_ARRAY_BUFFER, _id);
+  glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+
+  _layout = layout;
+  setFlag(Flag_Dynamic);
+}
+
 VertexBuffer::~VertexBuffer() {
   glDeleteBuffers(1, &_id);
+}
+
+void VertexBuffer::uploadData(const void* data, uint32_t size) {
+  if (!hasFlag(Flag_Dynamic)) {
+    LOG_WARN("VertexBuffer cannot upload data to static buffer");
+    return;
+  }
+
+  glBindBuffer(GL_ARRAY_BUFFER, _id);
+  glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
+}
+
+/*static*/ VertexBufferRef VertexBuffer::Create(uint32_t size, const BufferLayout& layout) {
+  VertexBufferRef buffer(new VertexBuffer(size, layout));
+
+  return buffer;
 }
 
 /*static*/ VertexBufferRef VertexBuffer::Create(const void* data, uint32_t size, const BufferLayout& layout) {
@@ -94,43 +125,9 @@ IndexBuffer::~IndexBuffer() {
 }
 
 // VertexArray
-VertexArray::VertexArray(VertexBufferRef vertexBuffer, IndexBufferRef indexBuffer) {
+VertexArray::VertexArray()
+  : _attributeCount(0) {
   glGenVertexArrays(1, &_id);
-  glBindVertexArray(_id);
-
-  glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer->id());
-
-  const auto& layout = vertexBuffer->layout();
-  for (uint32_t i = 0; i < layout.itemCount(); ++i) {
-    const auto& item = layout.itemAt(i);
-
-    const int offset = item.offset;
-    switch (item.type)
-    {
-    case BufferItemType::Float:
-    case BufferItemType::Float2:
-    case BufferItemType::Float3:
-    case BufferItemType::Float4:
-      {
-        glVertexAttribPointer(
-          i,
-          item.getComponentCount(),
-          BufferItemTypeToOpenGLBaseType(item.type),
-          GL_FALSE,
-          layout.stride(),
-          (const void*)offset
-        );
-        glEnableVertexAttribArray(i);
-      }
-      break;
-    }
-  }
-
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer->id());
-  glBindVertexArray(0);
-
-  _vertexBuffer = vertexBuffer;
-  _indexBuffer = indexBuffer;
 }
 
 VertexArray::~VertexArray() {
@@ -145,8 +142,54 @@ void VertexArray::unbind() {
   glBindVertexArray(0);
 }
 
-/*static*/ VertexArrayRef VertexArray::Create(VertexBufferRef vertexBuffer, IndexBufferRef indexBuffer) {
-  VertexArrayRef vertexArray(new VertexArray(vertexBuffer, indexBuffer));
+void VertexArray::addVertextBuffer(VertexBufferRef buffer) {
+  glBindVertexArray(_id);
+  glBindBuffer(GL_ARRAY_BUFFER, buffer->id());
+
+  const auto attribDivisor = buffer->hasFlag(VertexBuffer::Flag_Instance) ? 1 : 0;
+  const auto& layout = buffer->layout();
+  for (uint32_t i = 0; i < layout.itemCount(); ++i) {
+    const auto& item = layout.itemAt(i);
+
+    switch (item.type){
+    case BufferItemType::Float:
+    case BufferItemType::Float2:
+    case BufferItemType::Float3:
+    case BufferItemType::Float4:
+      {
+        const uint32_t idx = _attributeCount;
+        glVertexAttribPointer(
+          idx,
+          item.getComponentCount(),
+          BufferItemTypeToOpenGLBaseType(item.type),
+          GL_FALSE,
+          layout.stride(),
+          (const void*)item.offset
+        );
+        glEnableVertexAttribArray(idx);
+        glVertexAttribDivisor(idx, attribDivisor);
+
+        _attributeCount++;
+      }
+      break;
+    }
+  }
+
+  glBindVertexArray(0);
+
+  _vertexBuffers.push_back(buffer);
+}
+
+void VertexArray::setIndexBuffer(IndexBufferRef buffer) {
+  glBindVertexArray(_id);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer->id());
+  glBindVertexArray(0);
+
+  _indexBuffer = buffer;
+}
+
+/*static*/ VertexArrayRef VertexArray::Create() {
+  VertexArrayRef vertexArray(new VertexArray());
 
   return vertexArray;
 }

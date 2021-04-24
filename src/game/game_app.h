@@ -1,11 +1,10 @@
 #pragma once
 
 #include "system/application.h"
-#include "system/graphics/buffers.h"
 #include "system/graphics/camera_orthographic.h"
-#include "system/graphics/shader.h"
 
 #include "tetris/blocks.h"
+#include "tetris/tetromino.h"
 
 class GameApp: public Application {
 protected:
@@ -16,9 +15,7 @@ protected:
   virtual void onUpdate(const UpdateContext& ctx) override;
 
 private:
-  ShaderRef  _shader;
-  VertexArrayRef _vertexData;
-
   CameraOrthographic _camera;
   BlockAtlas _blockAtlas;
+  Tetromino  _tetromino;
 };

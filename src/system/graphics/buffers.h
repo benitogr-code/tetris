@@ -33,15 +33,9 @@ public:
   BufferLayout();
   BufferLayout(std::initializer_list<BufferItem> items);
 
-  uint32_t itemCount() const {
-    return _items.size();
-  }
-  const BufferItem& itemAt(uint32_t idx) const {
-    return _items[idx];
-  }
-  uint32_t stride() const {
-    return _stride;
-  }
+  uint32_t itemCount() const { return _items.size(); }
+  const BufferItem& itemAt(uint32_t idx) const { return _items[idx]; }
+  uint32_t stride() const { return _stride; }
 
 private:
   std::vector<BufferItem> _items;
@@ -53,26 +47,37 @@ typedef std::shared_ptr<VertexBuffer> VertexBufferRef;
 
 class VertexBuffer {
 public:
+  enum Flag {
+    Flag_Dynamic = BIT(1),
+    Flag_Instance = BIT(2),
+  };
+
+public:
   ~VertexBuffer();
 
-  unsigned int id() const {
-    return _id;
-  }
-  const BufferLayout& layout() const {
-    return _layout;
-  }
+  uint32_t id() const { return _id; }
+  void setFlag(Flag flag) { _flags |= flag; }
 
+  bool hasFlag(Flag flag) const { return (_flags & flag) != 0; }
+  const BufferLayout& layout() const { return _layout; }
+
+  void uploadData(const void* data, uint32_t size);
+
+  static VertexBufferRef Create(uint32_t size, const BufferLayout& layout);
   static VertexBufferRef Create(const void* data, uint32_t size, const BufferLayout& layout);
 
 private:
   VertexBuffer() = delete;
-  VertexBuffer(const VertexBuffer& buffer) = delete;
+  VertexBuffer(const VertexBuffer&) = delete;
 
+  VertexBuffer(uint32_t size, const BufferLayout& layout);
   VertexBuffer(const void* data, uint32_t size, const BufferLayout& layout);
 
 private:
   BufferLayout _layout;
-  unsigned int _id;
+  uint32_t _id;
+  uint32_t _size;
+  uint32_t _flags;
 };
 
 class IndexBuffer;
@@ -82,23 +87,19 @@ class IndexBuffer {
 public:
   ~IndexBuffer();
 
-  unsigned int id() const {
-    return _id;
-  }
-  uint32_t count() const {
-    return _count;
-  }
+  uint32_t id() const { return _id; }
+  uint32_t count() const { return _count; }
 
   static IndexBufferRef Create(const uint32_t* indices, uint32_t count);
 
 private:
   IndexBuffer() = delete;
-  IndexBuffer(const IndexBuffer& buffer) = delete;
+  IndexBuffer(const IndexBuffer&) = delete;
 
   IndexBuffer(const uint32_t* indices, uint32_t count);
 
 private:
-  unsigned int _id;
+  uint32_t _id;
   uint32_t _count;
 };
 
@@ -112,15 +113,19 @@ public:
   void bind();
   void unbind();
 
+  void addVertextBuffer(VertexBufferRef buffer);
+  void setIndexBuffer(IndexBufferRef buffer);
+
   const uint32_t indexCount() const { return _indexBuffer ? _indexBuffer->count() : 0; }
 
-  static VertexArrayRef Create(VertexBufferRef vertexBuffer, IndexBufferRef indexBuffer);
+  static VertexArrayRef Create();
 private:
-  VertexArray() = delete;
-  VertexArray(VertexBufferRef vertexBuffer, IndexBufferRef indexBuffer);
+  VertexArray();
+  VertexArray(const VertexArray&) = delete;
 
 private:
-  unsigned int _id;
-  VertexBufferRef _vertexBuffer;
+  uint32_t _id;
+  std::vector<VertexBufferRef> _vertexBuffers;
   IndexBufferRef _indexBuffer;
+  uint32_t _attributeCount;
 };

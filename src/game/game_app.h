@@ -16,6 +16,6 @@ protected:
 
 private:
   CameraOrthographic _camera;
-  BlockAtlas _blockAtlas;
+  BlocksMaterialRef _blocksMaterial;
   Tetromino  _tetromino;
 };

@@ -4,7 +4,8 @@ enum class BufferItemType {
   Float,
   Float2,
   Float3,
-  Float4
+  Float4,
+  Int,
 };
 
 struct BufferItem {
@@ -22,6 +23,7 @@ struct BufferItem {
       case BufferItemType::Float2:   return 2;
       case BufferItemType::Float3:   return 3;
       case BufferItemType::Float4:   return 4;
+      case BufferItemType::Int:      return 1;
     }
 
     return 0;

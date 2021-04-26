@@ -1,5 +1,6 @@
 #pragma once
 
+#include "system/graphics/shader.h"
 #include "system/graphics/texture.h"
 
 enum BlockId: int8_t {
@@ -15,25 +16,29 @@ enum BlockId: int8_t {
   BlockId_Count,
 };
 
-struct BlockInfo {
-  glm::vec2 offset;
-  float     size;
+struct BlockVertex {
+  glm::vec2 position;
+  glm::vec2 textureCoords;
 };
 
-class BlockAtlas {
+struct BlockInstance {
+  glm::vec2 translation;
+  uint32_t  blockId;
+};
+
+void createBlockQuad(std::array<BlockVertex, 4>& vertices, std::array<uint32_t, 6>& indices);
+
+class BlocksMaterial {
 public:
-  BlockAtlas();
+  BlocksMaterial();
 
   void init();
-
-  const TextureRef& getTexture() const {
-    return _texture;
-  }
-  const BlockInfo& getBlockInfo(BlockId id) const {
-    return _blocks[id];
-  }
+  ShaderRef getShader() { return _shader; }
+  TextureRef getTexture() { return _texture; }
 
 private:
+  ShaderRef  _shader;
   TextureRef _texture;
-  std::array<BlockInfo, BlockId_Count> _blocks;
 };
+
+typedef std::shared_ptr<BlocksMaterial> BlocksMaterialRef;

@@ -47,6 +47,10 @@ void Shader::setUniformFloat(const char* name, float value) {
   glUniform1f(getUniformLocation(name), value);
 }
 
+void Shader::setUniformVec2(const char* name, const glm::vec2& value){
+  glUniform2fv(getUniformLocation(name), 1, glm::value_ptr(value));
+}
+
 void Shader::setUniformVec3(const char* name, const glm::vec3& value){
   glUniform3fv(getUniformLocation(name), 1, glm::value_ptr(value));
 }

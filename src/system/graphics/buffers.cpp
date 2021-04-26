@@ -9,6 +9,7 @@ static uint16_t BufferItemTypeSize(BufferItemType type){
     case BufferItemType::Float2:  return sizeof(float) * 2;
     case BufferItemType::Float3:  return sizeof(float) * 3;
     case BufferItemType::Float4:   return sizeof(float) * 4;
+    case BufferItemType::Int:      return sizeof(int);
   }
 
   return 0;
@@ -20,6 +21,7 @@ static GLenum BufferItemTypeToOpenGLBaseType(BufferItemType type) {
     case BufferItemType::Float2:   return GL_FLOAT;
     case BufferItemType::Float3:   return GL_FLOAT;
     case BufferItemType::Float4:   return GL_FLOAT;
+    case BufferItemType::Int:      return GL_INT;
   }
 
   return 0;
@@ -163,6 +165,23 @@ void VertexArray::addVertextBuffer(VertexBufferRef buffer) {
           item.getComponentCount(),
           BufferItemTypeToOpenGLBaseType(item.type),
           GL_FALSE,
+          layout.stride(),
+          (const void*)item.offset
+        );
+        glEnableVertexAttribArray(idx);
+        glVertexAttribDivisor(idx, attribDivisor);
+
+        _attributeCount++;
+      }
+      break;
+    case BufferItemType::Int:
+      {
+        const uint32_t idx = _attributeCount;
+
+        glVertexAttribIPointer(
+          idx,
+          item.getComponentCount(),
+          BufferItemTypeToOpenGLBaseType(item.type),
           layout.stride(),
           (const void*)item.offset
         );

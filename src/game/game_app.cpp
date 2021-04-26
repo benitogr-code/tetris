@@ -3,8 +3,9 @@
 #include <glad/glad.h>
 
 bool GameApp::onInit() {
-  _blockAtlas.init();
-  _tetromino.init();
+  _blocksMaterial = std::make_shared<BlocksMaterial>();
+  _blocksMaterial->init();
+  _tetromino.init(_blocksMaterial);
 
   _camera.setAspectRatio(1.6f/0.9f);
 
@@ -32,5 +33,5 @@ void GameApp::onUpdate(const UpdateContext& ctx) {
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-  _tetromino.render(_blockAtlas, _camera.getViewProjectionMatrix());
+  _tetromino.render(_camera.getViewProjectionMatrix());
 }

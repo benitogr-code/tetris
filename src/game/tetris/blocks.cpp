@@ -3,11 +3,11 @@
 #define BLOCK_TEXTURE_PADDING   8.0f/128.0f
 #define BLOCK_TEXTURE_SIZE     32.0f/128.0f
 
-void createBlockQuad(std::array<BlockVertex, 4>& vertices, std::array<uint32_t, 6>& indices) {
-  vertices[0] = { { 0.25f, 0.25f }, { BLOCK_TEXTURE_SIZE, BLOCK_TEXTURE_SIZE } };
-  vertices[1] = { { 0.25f, 0.00f }, { BLOCK_TEXTURE_SIZE, 0.00f } };
+void createBlockQuad(float size, std::array<BlockVertex, 4>& vertices, std::array<uint32_t, 6>& indices) {
+  vertices[0] = { { size, size }, { BLOCK_TEXTURE_SIZE, BLOCK_TEXTURE_SIZE } };
+  vertices[1] = { { size, 0.00f }, { BLOCK_TEXTURE_SIZE, 0.00f } };
   vertices[2] = { { 0.00f, 0.00f }, { 0.00f, 0.00f } };
-  vertices[3] = { { 0.00f, 0.25f }, { 0.00f, BLOCK_TEXTURE_SIZE } };
+  vertices[3] = { { 0.00f, size }, { 0.00f, BLOCK_TEXTURE_SIZE } };
 
   indices[0] = 0; indices[1] = 1; indices[2] = 3;
   indices[3] = 1; indices[4] = 2; indices[5] = 3;

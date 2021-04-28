@@ -1,6 +1,5 @@
 #include "game_app.h"
-
-#include <glad/glad.h>
+#include "system/render_device.h"
 
 bool GameApp::onInit() {
   _blocksMaterial = std::make_shared<BlocksMaterial>();
@@ -20,18 +19,19 @@ void GameApp::onInputEvent(const InputEvent& event) {
 }
 
 void GameApp::onUpdate(const UpdateContext& ctx) {
+  /*
   static float time = 0.0f;
 
   time += ctx.frameTime;
 
   const float zoom = sinf(time) + 1.25f;
   _camera.setZoom(zoom);
+  */
 
-  glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-  glClear(GL_COLOR_BUFFER_BIT);
+  auto& renderDevice = getRenderDevice();
 
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  renderDevice.clear(0.5f, 0.5f, 0.5f);
+  renderDevice.beginRendering(_camera.getViewProjectionMatrix());
 
-  _tetromino.render(_camera.getViewProjectionMatrix());
+  _tetromino.render(renderDevice);
 }

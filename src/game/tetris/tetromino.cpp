@@ -11,7 +11,7 @@ void Tetromino::init(BlocksMaterialRef material) {
 
   std::array<BlockVertex, 4> vertices;
   std::array<uint32_t, 6> indices;
-  createBlockQuad(vertices, indices);
+  createBlockQuad(0.25f, vertices, indices);
 
   _quad = VertexBuffer::Create(
     vertices.data(),
@@ -39,20 +39,15 @@ void Tetromino::init(BlocksMaterialRef material) {
   );
 }
 
-void Tetromino::render(const glm::mat4x4& viewProjection) {
+void Tetromino::render(RenderDevice& renderDevice) {
   std::array<BlockInstance, 4> instances;
   instances[0] = { { -0.375f,  0.0f }, BlockId_Red };
-  instances[1] = { { -0.125f,  0.0f }, BlockId_Red };
+  instances[1] = { { -0.125f,  0.0f }, BlockId_Purple };
   instances[2] = { {  0.125f,  0.0f }, BlockId_Red };
   instances[3] = { { -0.125f, -0.25f }, BlockId_Cyan };
 
   _instanceData->uploadData(instances.data(), sizeof(BlockInstance)*4);
 
   _material->getTexture()->bind();
-  _material->getShader()->use();
-  _material->getShader()->setUniformMatrix4("u_viewProjection", viewProjection);
-  _vertexData->bind();
-  glDrawElementsInstanced(GL_TRIANGLES, _vertexData->indexCount(), GL_UNSIGNED_INT, nullptr, 4);
-
-  _vertexData->unbind();
+  renderDevice.drawInstanced(_vertexData, _material->getShader(), 4);
 }

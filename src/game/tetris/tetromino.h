@@ -1,6 +1,7 @@
 #pragma once
 
 #include "system/graphics/buffers.h"
+#include "system/render_device.h"
 
 #include "blocks.h"
 
@@ -9,7 +10,7 @@ public:
   Tetromino();
 
   void init(BlocksMaterialRef material);
-  void render(const glm::mat4x4& viewProjection);
+  void render(RenderDevice& renderDevice);
 
 private:
   BlocksMaterialRef _material;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "input.h"
+#include "render_device.h"
 #include "window.h"
 
 struct UpdateContext {
@@ -23,6 +24,8 @@ public:
   void run();
 
 protected:
+  RenderDevice& getRenderDevice() { return *_renderDevice.get(); }
+
   // To be implemented by custom application
   virtual bool onInit() = 0;
   virtual void onShutdown() = 0;
@@ -35,6 +38,7 @@ private:
 private:
   std::unique_ptr<Window> _window;
   std::unique_ptr<Input> _input;
+  std::unique_ptr<RenderDevice> _renderDevice;
   bool     _running;
 };
 

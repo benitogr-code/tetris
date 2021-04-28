@@ -26,7 +26,7 @@ struct BlockInstance {
   uint32_t  blockId;
 };
 
-void createBlockQuad(std::array<BlockVertex, 4>& vertices, std::array<uint32_t, 6>& indices);
+void createBlockQuad(float size, std::array<BlockVertex, 4>& vertices, std::array<uint32_t, 6>& indices);
 
 class BlocksMaterial {
 public:

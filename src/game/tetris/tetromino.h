@@ -1,9 +1,6 @@
 #pragma once
 
-#include "system/graphics/buffers.h"
-#include "system/render_device.h"
-
-#include "blocks.h"
+#include "block_renderer.h"
 
 class Tetromino {
 private:
@@ -19,23 +16,14 @@ private:
 public:
   Tetromino();
 
-  void init(float size, BlocksMaterialRef material);
-
   void randomize();
   void rotate();
   void setPosition(const glm::vec2& pos);
-  void render(RenderDevice& renderDevice);
+  void render(BlockRenderer& renderer);
 
 private:
-  BlocksMaterialRef _material;
-  VertexBufferRef _quad;
-  VertexBufferRef _instanceData;
-  VertexArrayRef  _vertexData;
-
   Shape     _shape;
   glm::vec2 _position = { 0.0f, 0.0f };
-  float     _size = 1.0f;
-  uint8_t   _id = BlockId_Purple;
-  uint8_t   _frameId = 0;
-  uint8_t   _updateVertexData = false;
+  BlockId   _blockId = BlockId_Purple;
+  uint32_t  _frameId = 0;
 };

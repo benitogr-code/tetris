@@ -1,6 +1,5 @@
 #include "application.h"
 #include "input.h"
-#include "render_device.h"
 
 #include <SDL.h>
 
@@ -21,9 +20,6 @@ bool Application::init(const WindowDesc& desc) {
 
   _input.reset(new Input());
   _input->registerCallback(std::bind(&Application::onInputEvent, this, std::placeholders::_1));
-
-  _renderDevice.reset(new RenderDevice());
-  _renderDevice->init();
 
   if (!onInit()) {
     LOG_ERROR("Failed to initialize application");

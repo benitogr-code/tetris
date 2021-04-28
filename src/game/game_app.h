@@ -3,10 +3,13 @@
 #include "system/application.h"
 #include "system/graphics/camera_orthographic.h"
 
-#include "tetris/blocks.h"
+#include "tetris/block_renderer.h"
 #include "tetris/tetromino.h"
 
 class GameApp: public Application {
+public:
+  GameApp();
+
 protected:
   // Application
   virtual bool onInit() override;
@@ -16,7 +19,6 @@ protected:
 
 private:
   CameraOrthographic _camera;
-  BlocksMaterialRef _blocksMaterial;
-  Tetromino  _tetrominoA;
-  Tetromino  _tetrominoB;
+  BlockRenderer _blockRenderer;
+  std::array<Tetromino, 6>  _tetrominos;
 };

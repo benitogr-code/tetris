@@ -1,16 +1,28 @@
 #include "game_app.h"
-#include "system/render_device.h"
+
+#include <glad/glad.h>
+
+#define BLOCK_SIZE 0.15f
+
+GameApp::GameApp()
+  : _blockRenderer(BLOCK_SIZE) {
+}
 
 bool GameApp::onInit() {
-  _blocksMaterial = std::make_shared<BlocksMaterial>();
-  _blocksMaterial->init();
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-  _tetrominoA.init(0.1f, _blocksMaterial);
-  _tetrominoA.setPosition({-0.7f, 0.0f});
-  _tetrominoB.init(0.1f, _blocksMaterial);
-  _tetrominoB.setPosition({0.7f, 0.0f});
+  _blockRenderer.init();
+
+  _tetrominos[0].setPosition({ -1.0, 0.5f });
+  _tetrominos[1].setPosition({  0.0, 0.5f });
+  _tetrominos[2].setPosition({  1.0, 0.5f });
+  _tetrominos[3].setPosition({ -1.0, -0.5f });
+  _tetrominos[4].setPosition({  0.0, -0.5f });
+  _tetrominos[5].setPosition({  1.0, -0.5f });
 
   _camera.setAspectRatio(1.6f/0.9f);
+  _camera.setPosition({ 0.25f, 0.0f });
 
   return true;
 }
@@ -21,13 +33,15 @@ void GameApp::onShutdown() {
 void GameApp::onInputEvent(const InputEvent& event) {
   LOG_INFO("onInputEvent: Key {0} | State {1}", event.keyId, event.state);
 
-  if ((event.keyId == KeyId_Up) && (event.state == InputState_Pressed)) {
-    _tetrominoA.rotate();
-    _tetrominoB.rotate();
+  if ((event.keyId == KeyId_Up) && (event.state&InputState_Pressed) != 0) {
+    for (auto& t : _tetrominos) {
+      t.rotate();
+    }
   }
   else if ((event.keyId == KeyId_Escape) && (event.state == InputState_Pressed)) {
-    _tetrominoA.randomize();
-    _tetrominoB.randomize();
+    for (auto& t : _tetrominos) {
+      t.randomize();
+    }
   }
 }
 
@@ -41,11 +55,12 @@ void GameApp::onUpdate(const UpdateContext& ctx) {
   _camera.setZoom(zoom);
   */
 
-  auto& renderDevice = getRenderDevice();
+  glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+  glClear(GL_COLOR_BUFFER_BIT);
 
-  renderDevice.clear(0.5f, 0.5f, 0.5f);
-  renderDevice.beginRendering(_camera.getViewProjectionMatrix());
-
-  _tetrominoA.render(renderDevice);
-  _tetrominoB.render(renderDevice);
+  _blockRenderer.beginFrame(_camera.getViewProjectionMatrix());
+    for (auto& t : _tetrominos) {
+      t.render(_blockRenderer);
+    }
+  _blockRenderer.endFrame();
 }

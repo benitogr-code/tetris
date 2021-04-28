@@ -4,7 +4,11 @@
 bool GameApp::onInit() {
   _blocksMaterial = std::make_shared<BlocksMaterial>();
   _blocksMaterial->init();
-  _tetromino.init(_blocksMaterial);
+
+  _tetrominoA.init(0.1f, _blocksMaterial);
+  _tetrominoA.setPosition({-0.7f, 0.0f});
+  _tetrominoB.init(0.1f, _blocksMaterial);
+  _tetrominoB.setPosition({0.7f, 0.0f});
 
   _camera.setAspectRatio(1.6f/0.9f);
 
@@ -16,6 +20,15 @@ void GameApp::onShutdown() {
 
 void GameApp::onInputEvent(const InputEvent& event) {
   LOG_INFO("onInputEvent: Key {0} | State {1}", event.keyId, event.state);
+
+  if ((event.keyId == KeyId_Up) && (event.state == InputState_Pressed)) {
+    _tetrominoA.rotate();
+    _tetrominoB.rotate();
+  }
+  else if ((event.keyId == KeyId_Escape) && (event.state == InputState_Pressed)) {
+    _tetrominoA.randomize();
+    _tetrominoB.randomize();
+  }
 }
 
 void GameApp::onUpdate(const UpdateContext& ctx) {
@@ -33,5 +46,6 @@ void GameApp::onUpdate(const UpdateContext& ctx) {
   renderDevice.clear(0.5f, 0.5f, 0.5f);
   renderDevice.beginRendering(_camera.getViewProjectionMatrix());
 
-  _tetromino.render(renderDevice);
+  _tetrominoA.render(renderDevice);
+  _tetrominoB.render(renderDevice);
 }

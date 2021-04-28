@@ -17,5 +17,6 @@ protected:
 private:
   CameraOrthographic _camera;
   BlocksMaterialRef _blocksMaterial;
-  Tetromino  _tetromino;
+  Tetromino  _tetrominoA;
+  Tetromino  _tetrominoB;
 };

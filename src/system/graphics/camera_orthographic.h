@@ -3,15 +3,10 @@
 class CameraOrthographic {
 public:
   CameraOrthographic();
-  CameraOrthographic(float aspectRatio, float zoom = 1.0f);
+  CameraOrthographic(float left, float right, float bottom, float top);
 
-  void setAspectRatio(float aspectRatio);
-  void setZoom(float zoom);
   void setPosition(const glm::vec2& position);
 
-  const float getZoom() const {
-    return _zoom;
-  }
   const glm::vec2& getPosition() const {
     return _position;
   }
@@ -34,6 +29,4 @@ private:
   glm::mat4x4 _viewProjectionMatrix;
 
   glm::vec2 _position;
-  float     _aspectRatio;
-  float     _zoom;
 };

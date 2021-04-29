@@ -1,38 +1,14 @@
 #include "camera_orthographic.h"
 
 CameraOrthographic::CameraOrthographic()
-  : CameraOrthographic(1.0f) {
+  : CameraOrthographic(0.0f, 800.0f, 0.0f, 600.0f) {
 }
 
-CameraOrthographic::CameraOrthographic(float aspectRatio, float zoom /*= 1.0f*/)
-  : _aspectRatio(aspectRatio)
-  , _zoom(1.0f) {
-
-  const float h = aspectRatio * zoom;
-  const float v = zoom;
-
-  _projectionMatrix = glm::ortho(-h, h, -v, v);
+CameraOrthographic::CameraOrthographic(float left, float right, float bottom, float top) {
+  _projectionMatrix = glm::ortho(left, right, bottom, top);
   _viewMatrix = glm::identity<glm::mat4x4>();
   _viewProjectionMatrix = _projectionMatrix * _viewMatrix;
   _position = glm::vec2(0.0f);
-}
-
-void CameraOrthographic::setAspectRatio(float aspectRatio) {
-  const float h = aspectRatio * _zoom;
-  const float v = _zoom;
-
-  _aspectRatio = aspectRatio;
-  _projectionMatrix = glm::ortho(-h, h, -v, v);
-  updateViewMatrices();
-}
-
-void CameraOrthographic::setZoom(float zoom) {
-  const float h = _aspectRatio * zoom;
-  const float v = zoom;
-
-  _zoom = zoom;
-  _projectionMatrix = glm::ortho(-h, h, -v, v);
-  updateViewMatrices();
 }
 
 void CameraOrthographic::setPosition(const glm::vec2& position) {

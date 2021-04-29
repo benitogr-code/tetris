@@ -7,13 +7,12 @@ Board::Board(int width, int height, float blockSize) {
   _blockSize = blockSize;
   _width = width;
   _height = height;
-  _position = glm::vec2(0.0f);
 
   reset();
 }
 
 glm::vec2 Board::getBlockPosition(int x, int y) const {
-  return _position + glm::vec2(x*_blockSize, y*_blockSize);
+  return glm::vec2(x*_blockSize, y*_blockSize);
 }
 
 bool Board::isBlockEmpty(int x, int y) const {
@@ -39,7 +38,7 @@ void Board::render(BlockRenderer& renderer) {
       auto block = _blocks[(y*_width)+x];
 
       if (block != EMPTY_BLOCK) {
-        const glm::vec2 blockPosition = _position + glm::vec2(x*_blockSize, y*_blockSize);
+        const glm::vec2 blockPosition = glm::vec2(x*_blockSize, y*_blockSize);
         renderer.drawBlock(blockPosition, (BlockId)block);
       }
     }

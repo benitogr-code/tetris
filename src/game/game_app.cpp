@@ -2,11 +2,10 @@
 
 #include <glad/glad.h>
 
-#define BLOCK_SIZE 1.0f
+#define BLOCK_SIZE 25.0f
 
 #define BOARD_WIDHT  12
 #define BOARD_HEIGHT 20
-
 
 // Helpers
 bool canMoveTo(const Tetromino& tetromino, const Board& board, const glm::ivec2& location) {
@@ -50,9 +49,8 @@ bool GameApp::onInit() {
   _tetrominoBoardLocation = { 4, 4 };
   _tetromino.setPosition({ _tetrominoBoardLocation.x * BLOCK_SIZE, _tetrominoBoardLocation.y * BLOCK_SIZE });
 
-  _camera.setAspectRatio(800.0f/600.0f);
-  _camera.setZoom(11.5f);
-  _camera.setPosition({ 0.0f, 10.5f });
+  _camera = CameraOrthographic(0.0f, 800.0f, 0.0f, 600.0f);
+  _camera.setPosition({-400.0f, -40.0f});
 
   return true;
 }

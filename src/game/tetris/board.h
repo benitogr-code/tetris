@@ -14,7 +14,6 @@ public:
 
 private:
   std::vector<uint32_t> _blocks;
-  glm::vec2 _position;
   float    _blockSize;
   uint32_t _width;
   uint32_t _height;

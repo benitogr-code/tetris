@@ -2,7 +2,7 @@
 
 #include <glad/glad.h>
 
-#define BLOCK_SIZE 0.15f
+#define BLOCK_SIZE 1.0f
 
 #define BOARD_WIDHT  12
 #define BOARD_HEIGHT 20
@@ -18,12 +18,12 @@ bool GameApp::onInit() {
 
   _blockRenderer.init();
 
-  _tetrominos[0].setPosition({  0.6f, 0.6f });
-  _tetrominos[1].setPosition({  0.6f, 1.5f });
+  _tetrominos[0].setPosition({  4.0f * BLOCK_SIZE, 4.0f * BLOCK_SIZE });
+  _tetrominos[1].setPosition({  4.0f * BLOCK_SIZE, 10.0f * BLOCK_SIZE });
 
   _camera.setAspectRatio(800.0f/600.0f);
-  _camera.setZoom(1.75f);
-  _camera.setPosition({ 0.2f, 1.65f });
+  _camera.setZoom(11.0f);
+  _camera.setPosition({ 0.0f, 10.0f });
 
   return true;
 }

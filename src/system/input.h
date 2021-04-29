@@ -2,6 +2,8 @@
 
 enum KeyId {
   KeyId_Escape = 0,
+  KeyId_Space,
+  KeyId_Enter,
   KeyId_Up,
   KeyId_Down,
   KeyId_Left,
@@ -31,9 +33,6 @@ public:
     _callback = callback;
   }
   void update();
-
-private:
-  void notifyListeners(const InputEvent& event);
 
 private:
   typedef std::map<unsigned int, KeyId> TScanCodes;

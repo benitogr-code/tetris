@@ -22,5 +22,6 @@ private:
   CameraOrthographic _camera;
   BlockRenderer _blockRenderer;
   Board _board;
-  std::array<Tetromino, 2>  _tetrominos;
+  Tetromino  _tetromino;
+  glm::ivec2 _tetrominoBoardLocation;
 };

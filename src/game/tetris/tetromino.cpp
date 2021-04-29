@@ -16,24 +16,24 @@ Tetromino::Shape Tetromino::Shape::GetShape(int idx) {
   if (idx == 0) {
     shape.data[0] = {
       0, 0, 0, 0,
-      1, 1, 1, 0,
       0, 1, 0, 0,
+      1, 1, 1, 0,
       0, 0, 0, 0 };
     shape.data[1] = {
+      0, 0, 0, 0,
       0, 1, 0, 0,
       1, 1, 0, 0,
-      0, 1, 0, 0,
-      0, 0, 0, 0 };
+      0, 1, 0, 0 };
     shape.data[2] = {
-      0, 1, 0, 0,
-      1, 1, 1, 0,
       0, 0, 0, 0,
-      0, 0, 0, 0 };
+      0, 0, 0, 0,
+      1, 1, 1, 0,
+      0, 1, 0, 0 };
     shape.data[3] = {
+      0, 0, 0, 0,
       0, 1, 0, 0,
       0, 1, 1, 0,
-      0, 1, 0, 0,
-      0, 0, 0, 0 };
+      0, 1, 0, 0 };
   }
   else if (idx == 1) {
     shape.data[0] = {
@@ -43,8 +43,8 @@ Tetromino::Shape Tetromino::Shape::GetShape(int idx) {
       0, 1, 0, 0 };
     shape.data[1] = {
       0, 0, 0, 0,
-      1, 1, 1, 1,
       0, 0, 0, 0,
+      1, 1, 1, 1,
       0, 0, 0, 0 };
     shape.data[2] = {
       0, 1, 0, 0,
@@ -53,125 +53,126 @@ Tetromino::Shape Tetromino::Shape::GetShape(int idx) {
       0, 1, 0, 0 };
     shape.data[3] = {
       0, 0, 0, 0,
-      1, 1, 1, 1,
       0, 0, 0, 0,
+      1, 1, 1, 1,
       0, 0, 0, 0 };
   }
   else if (idx == 2) {
     shape.data[0] = {
-      0, 1, 0, 0,
-      0, 1, 0, 0,
+      0, 0, 0, 0,
       0, 1, 1, 0,
-      0, 0, 0, 0 };
+      0, 1, 0, 0,
+      0, 1, 0, 0 };
     shape.data[1] = {
       0, 0, 0, 0,
-      1, 1, 1, 0,
       1, 0, 0, 0,
+      1, 1, 1, 0,
       0, 0, 0, 0 };
     shape.data[2] = {
-      1, 1, 0, 0,
-      0, 1, 0, 0,
-      0, 1, 0, 0,
-      0, 0, 0, 0 };
-    shape.data[3] = {
-      0, 0, 1, 0,
-      1, 1, 1, 0,
       0, 0, 0, 0,
-      0, 0, 0, 0 };
+      0, 1, 0, 0,
+      0, 1, 0, 0,
+      1, 1, 0, 0 };
+    shape.data[3] = {
+      0, 0, 0, 0,
+      0, 0, 0, 0,
+      1, 1, 1, 0,
+      0, 0, 1, 0 };
   }
   else if (idx == 3) {
     shape.data[0] = {
-      0, 1, 0, 0,
-      0, 1, 0, 0,
-      1, 1, 0, 0,
-      0, 0, 0, 0 };
-    shape.data[1] = {
-      1, 0, 0, 0,
-      1, 1, 1, 0,
       0, 0, 0, 0,
-      0, 0, 0, 0 };
+      1, 1, 0, 0,
+      0, 1, 0, 0,
+      0, 1, 0, 0 };
+    shape.data[1] = {
+      0, 0, 0, 0,
+      0, 0, 0, 0,
+      1, 1, 1, 0,
+      1, 0, 0, 0 };
     shape.data[2] = {
-      0, 1, 1, 0,
+      0, 0, 0, 0,
       0, 1, 0, 0,
       0, 1, 0, 0,
-      0, 0, 0, 0 };
+      0, 1, 1, 0 };
     shape.data[3] = {
       0, 0, 0, 0,
-      1, 1, 1, 0,
       0, 0, 1, 0,
+      1, 1, 1, 0,
       0, 0, 0, 0 };
   }
   else if (idx == 4) {
     shape.data[0] = {
       0, 0, 0, 0,
-      1, 1, 0, 0,
       0, 1, 1, 0,
+      1, 1, 0, 0,
       0, 0, 0, 0 };
     shape.data[1] = {
-      0, 1, 0, 0,
-      1, 1, 0, 0,
-      1, 0, 0, 0,
-      0, 0, 0, 0 };
-    shape.data[2] = {
-      1, 1, 0, 0,
-      0, 1, 1, 0,
       0, 0, 0, 0,
-      0, 0, 0, 0 };
-    shape.data[3] = {
-      0, 0, 1, 0,
+      1, 0, 0, 0,
+      1, 1, 0, 0,
+      0, 1, 0, 0 };
+    shape.data[2] = {
+      0, 0, 0, 0,
+      0, 0, 0, 0,
       0, 1, 1, 0,
+      1, 1, 0, 0 };
+    shape.data[3] = {
+      0, 0, 0, 0,
       0, 1, 0, 0,
-      0, 0, 0, 0 };
+      0, 1, 1, 0,
+      0, 0, 1, 0 };
   }
   else if (idx == 5) {
     shape.data[0] = {
       0, 0, 0, 0,
-      0, 1, 1, 0,
       1, 1, 0, 0,
+      0, 1, 1, 0,
       0, 0, 0, 0 };
     shape.data[1] = {
-      1, 0, 0, 0,
-      1, 1, 0, 0,
-      0, 1, 0, 0,
-      0, 0, 0, 0 };
-    shape.data[2] = {
-      0, 1, 1, 0,
-      1, 1, 0, 0,
       0, 0, 0, 0,
-      0, 0, 0, 0 };
-    shape.data[3] = {
       0, 1, 0, 0,
-      0, 1, 1, 0,
+      1, 1, 0, 0,
+      1, 0, 0, 0 };
+    shape.data[2] = {
+      0, 0, 0, 0,
+      0, 0, 0, 0,
+      1, 1, 0, 0,
+      0, 1, 1, 0 };
+    shape.data[3] = {
+      0, 0, 0, 0,
       0, 0, 1, 0,
-      0, 0, 0, 0 };
+      0, 1, 1, 0,
+      0, 1, 0, 0 };
   }
   else {
     shape.data[0] = {
-      1, 1, 0, 0,
-      1, 1, 0, 0,
       0, 0, 0, 0,
-      0, 0, 0, 0 };
+      0, 0, 0, 0,
+      1, 1, 0, 0,
+      1, 1, 0, 0 };
     shape.data[1] = {
-      1, 1, 0, 0,
-      1, 1, 0, 0,
       0, 0, 0, 0,
-      0, 0, 0, 0 };
+      0, 0, 0, 0,
+      1, 1, 0, 0,
+      1, 1, 0, 0 };
     shape.data[2] = {
-      1, 1, 0, 0,
-      1, 1, 0, 0,
       0, 0, 0, 0,
-      0, 0, 0, 0 };
+      0, 0, 0, 0,
+      1, 1, 0, 0,
+      1, 1, 0, 0 };
     shape.data[3] = {
-      1, 1, 0, 0,
-      1, 1, 0, 0,
       0, 0, 0, 0,
-      0, 0, 0, 0 };
+      0, 0, 0, 0,
+      1, 1, 0, 0,
+      1, 1, 0, 0 };
   }
 
   return shape;
 }
 
-Tetromino::Tetromino() {
+Tetromino::Tetromino(float blockSize)
+  : _blockSize(blockSize) {
   randomize();
 }
 
@@ -189,15 +190,43 @@ void Tetromino::setPosition(const glm::vec2& pos) {
   _position = pos;
 }
 
-void Tetromino::render(BlockRenderer& renderer) {
-  const float size = renderer.getBlockSize();
+void Tetromino::getBlockCoordinates(const glm::ivec2& offset, std::vector<glm::ivec2>& coords) const {
+  const auto& shapeData = _shape.data[_frameId];
+  coords.clear();
 
   for (int x = 0; x < 4; ++x) {
     for (int y = 0; y < 4; ++y) {
       const int idx = (x*4) + y;
 
+      if (shapeData[idx] != 0) {
+        coords.push_back(offset + glm::ivec2(y, x));
+      }
+    }
+  }
+}
+
+void Tetromino::getBlockCoordinatesAfterRotation(const glm::ivec2& offset, std::vector<glm::ivec2>& coords) const {
+  const auto& shapeData = _shape.data[(_frameId+1)%FrameCount];
+  coords.clear();
+
+  for (int x = 0; x < 4; ++x) {
+    for (int y = 0; y < 4; ++y) {
+      const int idx = (x*4) + y;
+
+      if (shapeData[idx] != 0) {
+        coords.push_back(offset + glm::ivec2(y, x));
+      }
+    }
+  }
+}
+
+void Tetromino::render(BlockRenderer& renderer) {
+  for (int x = 0; x < 4; ++x) {
+    for (int y = 0; y < 4; ++y) {
+      const int idx = (x*4) + y;
+
       if (_shape.data[_frameId][idx] != 0) {
-        const glm::vec2 blockPosition = _position + glm::vec2(y * size,  x * -size);
+        const glm::vec2 blockPosition = _position + glm::vec2(y*_blockSize, x*_blockSize);
         renderer.drawBlock(blockPosition, _blockId);
       }
     }

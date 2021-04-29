@@ -4,6 +4,8 @@
 
 Input::Input() {
   _scanCodes.insert(TScanCodes::value_type(SDL_SCANCODE_ESCAPE, KeyId_Escape));
+  _scanCodes.insert(TScanCodes::value_type(SDL_SCANCODE_SPACE, KeyId_Space));
+  _scanCodes.insert(TScanCodes::value_type(SDL_SCANCODE_RETURN, KeyId_Enter));
   _scanCodes.insert(TScanCodes::value_type(SDL_SCANCODE_UP, KeyId_Up));
   _scanCodes.insert(TScanCodes::value_type(SDL_SCANCODE_DOWN, KeyId_Down));
   _scanCodes.insert(TScanCodes::value_type(SDL_SCANCODE_LEFT, KeyId_Left));

@@ -14,16 +14,22 @@ private:
   };
 
 public:
-  Tetromino();
+  Tetromino(float blockSize);
 
   void randomize();
+
   void rotate();
   void setPosition(const glm::vec2& pos);
+
+  void getBlockCoordinates(const glm::ivec2& offset, std::vector<glm::ivec2>& coords) const;
+  void getBlockCoordinatesAfterRotation(const glm::ivec2& offset, std::vector<glm::ivec2>& coords) const;
+
   void render(BlockRenderer& renderer);
 
 private:
-  Shape     _shape;
-  glm::vec2 _position = { 0.0f, 0.0f };
-  BlockId   _blockId = BlockId_Purple;
-  uint32_t  _frameId = 0;
+  Shape      _shape;
+  glm::vec2  _position = { 0.0f, 0.0f };
+  float      _blockSize = 1.0f;
+  BlockId    _blockId = BlockId_Purple;
+  uint32_t   _frameId = 0;
 };

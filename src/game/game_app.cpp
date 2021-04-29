@@ -4,8 +4,12 @@
 
 #define BLOCK_SIZE 0.15f
 
+#define BOARD_WIDHT  12
+#define BOARD_HEIGHT 20
+
 GameApp::GameApp()
-  : _blockRenderer(BLOCK_SIZE) {
+  : _blockRenderer(BLOCK_SIZE)
+  , _board(BOARD_WIDHT, BOARD_HEIGHT) {
 }
 
 bool GameApp::onInit() {
@@ -14,15 +18,12 @@ bool GameApp::onInit() {
 
   _blockRenderer.init();
 
-  _tetrominos[0].setPosition({ -1.0, 0.5f });
-  _tetrominos[1].setPosition({  0.0, 0.5f });
-  _tetrominos[2].setPosition({  1.0, 0.5f });
-  _tetrominos[3].setPosition({ -1.0, -0.5f });
-  _tetrominos[4].setPosition({  0.0, -0.5f });
-  _tetrominos[5].setPosition({  1.0, -0.5f });
+  _tetrominos[0].setPosition({  0.6f, 0.6f });
+  _tetrominos[1].setPosition({  0.6f, 1.5f });
 
-  _camera.setAspectRatio(1.6f/0.9f);
-  _camera.setPosition({ 0.25f, 0.0f });
+  _camera.setAspectRatio(800.0f/600.0f);
+  _camera.setZoom(1.75f);
+  _camera.setPosition({ 0.2f, 1.65f });
 
   return true;
 }
@@ -31,7 +32,7 @@ void GameApp::onShutdown() {
 }
 
 void GameApp::onInputEvent(const InputEvent& event) {
-  LOG_INFO("onInputEvent: Key {0} | State {1}", event.keyId, event.state);
+  //LOG_INFO("onInputEvent: Key {0} | State {1}", event.keyId, event.state);
 
   if ((event.keyId == KeyId_Up) && (event.state&InputState_Pressed) != 0) {
     for (auto& t : _tetrominos) {
@@ -55,12 +56,16 @@ void GameApp::onUpdate(const UpdateContext& ctx) {
   _camera.setZoom(zoom);
   */
 
-  glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT);
 
   _blockRenderer.beginFrame(_camera.getViewProjectionMatrix());
+  {
+    _board.render(_blockRenderer);
+
     for (auto& t : _tetrominos) {
       t.render(_blockRenderer);
     }
+  }
   _blockRenderer.endFrame();
 }

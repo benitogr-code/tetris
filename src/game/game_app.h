@@ -4,6 +4,7 @@
 #include "system/graphics/camera_orthographic.h"
 
 #include "tetris/block_renderer.h"
+#include "tetris/board.h"
 #include "tetris/tetromino.h"
 
 class GameApp: public Application {
@@ -20,5 +21,6 @@ protected:
 private:
   CameraOrthographic _camera;
   BlockRenderer _blockRenderer;
-  std::array<Tetromino, 6>  _tetrominos;
+  Board _board;
+  std::array<Tetromino, 2>  _tetrominos;
 };

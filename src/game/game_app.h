@@ -1,6 +1,7 @@
 #pragma once
 
 #include "system/application.h"
+#include "system/font.h"
 #include "system/graphics/camera_orthographic.h"
 
 #include "tetris/block_renderer.h"
@@ -20,6 +21,7 @@ protected:
 
 private:
   CameraOrthographic _camera;
+  FontAtlasRef  _font;
   BlockRenderer _blockRenderer;
   Board _board;
   Tetromino  _tetromino;

@@ -45,6 +45,7 @@ bool GameApp::onInit() {
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   _blockRenderer.init();
+  //_font = Font::loadFont("fonts/pixeloperator-bold.ttf", 48);
 
   _tetrominoBoardLocation = { 4, 4 };
   _tetromino.setPosition({ _tetrominoBoardLocation.x * BLOCK_SIZE, _tetrominoBoardLocation.y * BLOCK_SIZE });

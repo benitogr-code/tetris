@@ -1,4 +1,5 @@
 // Standard library
+#include <algorithm>
 #include <array>
 #include <functional>
 #include <map>

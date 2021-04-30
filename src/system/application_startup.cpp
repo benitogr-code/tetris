@@ -1,9 +1,8 @@
 #include "application.h"
 #include "file_utils.h"
+#include "font.h"
 
 #include <SDL.h>
-#include <ft2build.h>
-#include FT_FREETYPE_H
 
 int startApplication(const StartupParams& params) {
   Logger::init();
@@ -17,9 +16,8 @@ int startApplication(const StartupParams& params) {
     return -1;
   }
 
-  FT_Library ft;
-  if (FT_Init_FreeType(&ft)) {
-    LOG_ERROR("Fail to initialize FreeType");
+  if (!Font::init()) {
+    LOG_ERROR("Fail to initialize Font");
     return -1;
   }
 
@@ -33,7 +31,7 @@ int startApplication(const StartupParams& params) {
   application->shutdown();
   delete application;
 
-  FT_Done_FreeType(ft);
+  Font::shutdown();
 
   SDL_Quit();
 

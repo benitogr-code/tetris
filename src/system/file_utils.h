@@ -19,8 +19,6 @@ public:
 
   static bool readTextFile(const char* filePath, std::vector<char>& data);
   static bool readPngFile(const char* filePath, ImageData& data);
-
-private:
   static std::string getAbsolutePath(const char* filePath);
 
 private:

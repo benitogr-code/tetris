@@ -49,7 +49,7 @@ FontAtlas::FontAtlas(FT_FaceRec_* face, int pixelSize) {
     // Store character info
     // Note: advance is the horizontal distance (in 1/64th pixels) from the origin to the origin of the next glyph
     _characters[i].advance = glm::ivec2(face->glyph->advance.x >> 6, face->glyph->advance.y >> 6);
-    _characters[i].bitmapSize = glm::ivec2(face->glyph->bitmap.width, face->glyph->bitmap.rows);
+    _characters[i].size = glm::ivec2(face->glyph->bitmap.width, face->glyph->bitmap.rows);
     _characters[i].bearing = glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top);
     _characters[i].atlasOffset = (float)textureOffset / (float)_width;
 
@@ -61,6 +61,10 @@ FontAtlas::FontAtlas(FT_FaceRec_* face, int pixelSize) {
 
 FontAtlas::~FontAtlas() {
   glDeleteTextures(1, &_textureId);
+}
+
+void FontAtlas::bindTexture() {
+  glBindTexture(GL_TEXTURE_2D, _textureId);
 }
 
 /*static*/ FontAtlasRef FontAtlas::Create(FT_LibraryRec_* library, const char* fontFile, int pixelSize) {

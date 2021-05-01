@@ -45,7 +45,7 @@ bool GameApp::onInit() {
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   _blockRenderer.init();
-  //_font = Font::loadFont("fonts/pixeloperator-bold.ttf", 48);
+  _textRenderer.init();
 
   _tetrominoBoardLocation = { 4, 4 };
   _tetromino.setPosition({ _tetrominoBoardLocation.x * BLOCK_SIZE, _tetrominoBoardLocation.y * BLOCK_SIZE });
@@ -120,4 +120,7 @@ void GameApp::onUpdate(const UpdateContext& ctx) {
     _tetromino.render(_blockRenderer);
   }
   _blockRenderer.endFrame();
+
+  //_textRenderer.drawText("Hello Tetris!", {-200.0f, 200.0f}, _camera.getViewProjectionMatrix());
+  _textRenderer.drawAtlas(_camera.getViewProjectionMatrix());
 }

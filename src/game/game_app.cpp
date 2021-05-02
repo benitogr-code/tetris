@@ -114,13 +114,14 @@ void GameApp::onUpdate(const UpdateContext& ctx) {
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT);
 
-  _blockRenderer.beginFrame(_camera.getViewProjectionMatrix());
+  const auto& vpMatrix = _camera.getViewProjectionMatrix();
+
+  _blockRenderer.beginFrame(vpMatrix);
   {
     _board.render(_blockRenderer);
     _tetromino.render(_blockRenderer);
   }
   _blockRenderer.endFrame();
 
-  //_textRenderer.drawText("Hello Tetris!", {-200.0f, 200.0f}, _camera.getViewProjectionMatrix());
-  _textRenderer.drawAtlas(_camera.getViewProjectionMatrix());
+  _textRenderer.drawText("Hello Tetris!", {-200.0f, 200.0f}, {0.0f, 1.0f, 0.0f}, 1.25f, vpMatrix);
 }

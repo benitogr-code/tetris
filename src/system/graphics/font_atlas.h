@@ -12,7 +12,7 @@ public:
     glm::ivec2 advance;
     glm::ivec2 bearing;
     glm::ivec2 size;
-    float      atlasOffset; // x-offset
+    glm::vec2  atlasOffsets;
   };
 
 public:

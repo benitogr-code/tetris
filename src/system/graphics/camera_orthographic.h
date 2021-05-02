@@ -10,13 +10,13 @@ public:
   const glm::vec2& getPosition() const {
     return _position;
   }
-  const glm::mat4x4 getViewMatrix() const {
+  const glm::mat4x4& getViewMatrix() const {
     return _viewMatrix;
   }
-  const glm::mat4x4 getProjectionMatrix() const {
+  const glm::mat4x4& getProjectionMatrix() const {
     return _projectionMatrix;
   }
-  const glm::mat4x4 getViewProjectionMatrix() const {
+  const glm::mat4x4& getViewProjectionMatrix() const {
     return _viewProjectionMatrix;
   }
 

@@ -15,8 +15,7 @@ public:
   TextRenderer();
 
   void init();
-  void drawText(const std::string& text, const glm::vec2 position, const glm::mat4x4 viewProjection);
-  void drawAtlas(const glm::mat4x4 viewProjection);
+  void drawText(const std::string& text, const glm::vec2& position, const glm::vec3& color, const float scale, const glm::mat4x4& viewProjection);
 
 private:
   std::vector<TextVertex> _text;

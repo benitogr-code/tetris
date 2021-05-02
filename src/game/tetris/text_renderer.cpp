@@ -10,7 +10,7 @@ TextRenderer::TextRenderer() {
 }
 
 void TextRenderer::init() {
-  _font = Font::loadFont("fonts/pixeloperator-bold.ttf", 64);
+  _font = Font::loadFont("fonts/meslo_lgs_bold.ttf", 32);
 
   ShaderCreateParams shaderParams;
   shaderParams.name = "text";
@@ -30,7 +30,7 @@ void TextRenderer::init() {
   _va->addVertextBuffer(_vbTextQuads);
 }
 
-void TextRenderer::drawText(const std::string& text, const glm::vec2 position, const glm::mat4x4 viewProjection) {
+void TextRenderer::drawText(const std::string& text, const glm::vec2& position, const glm::vec3& color, const float scale, const glm::mat4x4& viewProjection) {
   _text.clear();
 
   int xOffset = 0;
@@ -39,31 +39,21 @@ void TextRenderer::drawText(const std::string& text, const glm::vec2 position, c
     if (charInfo == nullptr)
       continue;
 
-    const float xpos = xOffset + position.x + charInfo->bearing.x;
-    const float ypos = position.y - charInfo->size.y - charInfo->bearing.y;
+    const float xpos = xOffset + position.x + (charInfo->bearing.x * scale);
+    const float ypos = position.y - (charInfo->size.y - charInfo->bearing.y) * scale;
 
-    const float w = charInfo->size.x;
-    const float h = charInfo->size.y;
-    _text.push_back({
-      { xpos, ypos + h }, { charInfo->atlasOffset, 0.0f }
-    });
-    _text.push_back({
-      { xpos, ypos }, { charInfo->atlasOffset, 1.0f }
-    });
-    _text.push_back({
-      { xpos + w, ypos }, { charInfo->atlasOffset + 0.1f, 1.0f }
-    });
-    _text.push_back({
-      { xpos, ypos + h }, { charInfo->atlasOffset, 0.0f }
-    });
-    _text.push_back({
-      { xpos + w, ypos }, { charInfo->atlasOffset + 0.1f, 1.0f }
-    });
-    _text.push_back({
-      { xpos + w, ypos + h }, { charInfo->atlasOffset + 0.1f, 0.0f }
-    });
+    const float w = charInfo->size.x * scale;
+    const float h = charInfo->size.y * scale;
+    const auto& offsets = charInfo->atlasOffsets;
 
-    xOffset += charInfo->advance.x;
+    _text.push_back({{ xpos, ypos + h }, { offsets[0], 0.0f }});
+    _text.push_back({{ xpos, ypos }, { offsets[0], 1.0f }});
+    _text.push_back({{ xpos + w, ypos }, { offsets[1], 1.0f }});
+    _text.push_back({{ xpos, ypos + h }, { offsets[0], 0.0f }});
+    _text.push_back({{ xpos + w, ypos }, { offsets[1], 1.0f }});
+    _text.push_back({{ xpos + w, ypos + h }, { offsets[1], 0.0f }});
+
+    xOffset += charInfo->advance.x * scale;
   }
 
   if (_text.size() == 0)
@@ -75,30 +65,8 @@ void TextRenderer::drawText(const std::string& text, const glm::vec2 position, c
   _font->bindTexture();
   _shader->use();
   _shader->setUniformMatrix4("u_viewProjection", viewProjection);
+  _shader->setUniformVec3("u_textColor", color);
   _va->bind();
   glDrawArrays(GL_TRIANGLES, 0, charCount);
-  _va->unbind();
-}
-
-void TextRenderer::drawAtlas(const glm::mat4x4 viewProjection) {
-  float h = _font->getHeight();
-  float w = _font->getWidth();
-
-  float w2 = w / 2.0f;
-  std::array<TextVertex, 6> vertices;
-  vertices[0] = { glm::vec2(-w2, 200.0f + h),    glm::vec2(0.0f, 0.0f) };
-  vertices[1] = { glm::vec2(-w2, 200.0f), glm::vec2(0.0f, 1.0f) };
-  vertices[2] = { glm::vec2(w2, 200.0f),  glm::vec2(1.0f, 1.0f) };
-  vertices[3] = { glm::vec2(-w2, 200.0f + h),    glm::vec2(0.0f, 0.0f) };
-  vertices[4] = { glm::vec2(w2, 200.0f),  glm::vec2(1.0f, 1.0f) };
-  vertices[5] = { glm::vec2(w2, 200.0f + h),     glm::vec2(1.0f, 0.0f) };
-
-  _vbTextQuads->uploadData(vertices.data(), sizeof(TextVertex)*6);
-
-  _font->bindTexture();
-  _shader->use();
-  _shader->setUniformMatrix4("u_viewProjection", viewProjection);
-  _va->bind();
-  glDrawArrays(GL_TRIANGLES, 0, 6);
   _va->unbind();
 }

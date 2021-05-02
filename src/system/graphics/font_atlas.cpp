@@ -51,9 +51,12 @@ FontAtlas::FontAtlas(FT_FaceRec_* face, int pixelSize) {
     _characters[i].advance = glm::ivec2(face->glyph->advance.x >> 6, face->glyph->advance.y >> 6);
     _characters[i].size = glm::ivec2(face->glyph->bitmap.width, face->glyph->bitmap.rows);
     _characters[i].bearing = glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top);
-    _characters[i].atlasOffset = (float)textureOffset / (float)_width;
 
-    textureOffset += face->glyph->bitmap.width + padding;
+    const int nextTextureOffset = textureOffset + face->glyph->bitmap.width + padding;
+    _characters[i].atlasOffsets[0] = (float)textureOffset / (float)_width;
+    _characters[i].atlasOffsets[1] = (float)(nextTextureOffset) / (float)_width;
+
+    textureOffset = nextTextureOffset;
   }
 
   glPixelStorei(GL_UNPACK_ALIGNMENT, 4);

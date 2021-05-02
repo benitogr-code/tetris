@@ -9,8 +9,8 @@ TextRenderer::TextRenderer() {
   _text.reserve(TEXT_MAX_LENGTH*CHAR_VERTICES);
 }
 
-void TextRenderer::init() {
-  _font = Font::loadFont("fonts/meslo_lgs_bold.ttf", 32);
+void TextRenderer::init(int fontSize) {
+  _font = Font::loadFont("fonts/meslo_lgs_bold.ttf", fontSize);
 
   ShaderCreateParams shaderParams;
   shaderParams.name = "text";

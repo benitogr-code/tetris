@@ -48,6 +48,11 @@ bool Window::init() {
   return true;
 }
 
+void Window::resize(int width, int height) {
+  SDL_SetWindowSize(_window, width, height);
+  glViewport(0, 0, width, height);
+}
+
 void Window::update() {
   SDL_GL_SwapWindow(_window);
 }

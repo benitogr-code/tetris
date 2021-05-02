@@ -20,10 +20,18 @@ protected:
   virtual void onUpdate(const UpdateContext& ctx) override;
 
 private:
+  void moveTetromino(const glm::ivec2& boardLocation);
+  void moveAndRotateTetromino(const glm::ivec2& boardLocation);
+  void respawnTetromino();
+
+private:
   CameraOrthographic _camera;
   BlockRenderer _blockRenderer;
   TextRenderer  _textRenderer;
+
   Board _board;
   Tetromino  _tetromino;
   glm::ivec2 _tetrominoBoardLocation;
+
+  Tetromino  _nextTetromino;
 };

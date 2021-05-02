@@ -16,6 +16,7 @@ public:
   ~Window();
 
   bool init();
+  void resize(int width, int height);
   void update();
 
 private:

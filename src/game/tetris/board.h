@@ -4,9 +4,15 @@
 
 class Board {
 public:
-  Board(int width, int height, float blockSize);
+  Board(int columns, int rows, float blockSize);
 
-  glm::vec2 getBlockPosition(int x, int y) const;
+  void setOrigin(const glm::vec2& origin) {
+    _origin = origin;
+  }
+  const glm::vec2& getOrigin() const {
+    return _origin;
+  }
+
   bool isBlockEmpty(int x, int y) const;
 
   void reset();
@@ -14,7 +20,8 @@ public:
 
 private:
   std::vector<uint32_t> _blocks;
-  float    _blockSize;
-  uint32_t _width;
-  uint32_t _height;
+  glm::vec2 _origin;
+  float     _blockSize;
+  uint32_t  _columns;
+  uint32_t  _rows;
 };

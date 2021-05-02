@@ -23,6 +23,8 @@ public:
   void run();
 
 protected:
+  Window* getWindow() const { return _window.get(); };
+
   // To be implemented by custom application
   virtual bool onInit() = 0;
   virtual void onShutdown() = 0;

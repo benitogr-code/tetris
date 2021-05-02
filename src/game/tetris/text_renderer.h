@@ -14,7 +14,7 @@ private:
 public:
   TextRenderer();
 
-  void init();
+  void init(int fontSize);
   void drawText(const std::string& text, const glm::vec2& position, const glm::vec3& color, const float scale, const glm::mat4x4& viewProjection);
 
 private:

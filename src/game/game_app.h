@@ -3,10 +3,9 @@
 #include "system/application.h"
 #include "system/graphics/camera_orthographic.h"
 
-#include "tetris/block_renderer.h"
 #include "tetris/board.h"
 #include "tetris/tetromino.h"
-#include "tetris/text_renderer.h"
+#include "tetris/renderer.h"
 
 class GameApp: public Application {
 public:
@@ -26,8 +25,7 @@ private:
 
 private:
   CameraOrthographic _camera;
-  BlockRenderer _blockRenderer;
-  TextRenderer  _textRenderer;
+  Renderer _renderer;
 
   Board _board;
   Tetromino  _tetromino;

@@ -29,7 +29,7 @@ void Board::reset() {
   }
 }
 
-void Board::render(BlockRenderer& renderer) {
+void Board::render(Renderer& renderer) {
   for (int r = 0; r < _rows; ++r) {
     for (int c = 0; c < _columns; ++ c) {
       auto block = _blocks[(r*_columns)+c];

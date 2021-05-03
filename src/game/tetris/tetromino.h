@@ -1,6 +1,6 @@
 #pragma once
 
-#include "block_renderer.h"
+#include "renderer.h"
 
 class Tetromino {
 private:
@@ -24,7 +24,7 @@ public:
   void getBlockCoordinates(const glm::ivec2& offset, std::vector<glm::ivec2>& coords) const;
   void getBlockCoordinatesAfterRotation(const glm::ivec2& offset, std::vector<glm::ivec2>& coords) const;
 
-  void render(BlockRenderer& renderer);
+  void render(Renderer& renderer);
 
 private:
   Shape      _shape;

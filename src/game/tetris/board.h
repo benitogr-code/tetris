@@ -1,6 +1,6 @@
 #pragma once
 
-#include "block_renderer.h"
+#include "renderer.h"
 
 class Board {
 public:
@@ -16,7 +16,7 @@ public:
   bool isBlockEmpty(int x, int y) const;
 
   void reset();
-  void render(BlockRenderer& renderer);
+  void render(Renderer& renderer);
 
 private:
   std::vector<uint32_t> _blocks;

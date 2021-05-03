@@ -220,7 +220,7 @@ void Tetromino::getBlockCoordinatesAfterRotation(const glm::ivec2& offset, std::
   }
 }
 
-void Tetromino::render(BlockRenderer& renderer) {
+void Tetromino::render(Renderer& renderer) {
   for (int x = 0; x < 4; ++x) {
     for (int y = 0; y < 4; ++y) {
       const int idx = (x*4) + y;

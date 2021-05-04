@@ -34,7 +34,8 @@ void Input::update() {
       InputEvent input;
       input.keyId = iter->second;
       input.state = keyEvent.type == SDL_KEYDOWN ? InputState_Pressed : InputState_Released;
-      input.state |= keyEvent.repeat > 0 ? InputState_Hold : 0;
+      if (keyEvent.repeat > 0)
+        input.state = InputState_Hold;
 
       inputEvents.push_back(input);
     }

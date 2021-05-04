@@ -8,7 +8,6 @@ static std::uniform_int_distribution<> gDistribution(0, 1024);
 
 static int RandShapeId() { return gDistribution(gRandomGen)%7; }
 static int RandBlockId() { return gDistribution(gRandomGen)%BlockId_Wall; }
-static int RandFrameId() { return gDistribution(gRandomGen)%4; }
 
 Tetromino::Shape Tetromino::Shape::GetShape(int idx) {
   Tetromino::Shape shape;
@@ -179,8 +178,15 @@ Tetromino::Tetromino(float blockSize)
 void Tetromino::randomize() {
   _blockId = (BlockId)RandBlockId();
   _shape = Shape::GetShape(RandShapeId());
-  _frameId = RandFrameId();
+  _frameId = 0;
 }
+
+void Tetromino::clone(const Tetromino& rhs) {
+  _blockId = rhs._blockId;
+  _shape = rhs._shape;
+  _frameId = 0;
+}
+
 
 void Tetromino::rotate() {
   _frameId = (_frameId+1) % FrameCount;
@@ -188,6 +194,10 @@ void Tetromino::rotate() {
 
 void Tetromino::setPosition(const glm::vec2& pos) {
   _position = pos;
+}
+
+BlockId Tetromino::getBlockId() const {
+  return _blockId;
 }
 
 void Tetromino::getBlockCoordinates(const glm::ivec2& offset, std::vector<glm::ivec2>& coords) const {

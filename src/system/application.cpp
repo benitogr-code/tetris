@@ -65,12 +65,26 @@ void Application::run() {
 void Application::checkSystemEvents() {
   const int maxEvents = 16;
   SDL_Event events[maxEvents];
-  const int eventsRead = SDL_PeepEvents(events, maxEvents, SDL_GETEVENT, SDL_QUIT, SDL_QUIT);
 
-  for (int i = 0; i < eventsRead; ++i) {
-    if (events[i].type == SDL_QUIT) {
-      _running = false;
-      break;
+  // Quit
+  {
+    const int eventsRead = SDL_PeepEvents(events, maxEvents, SDL_GETEVENT, SDL_QUIT, SDL_QUIT);
+
+    for (int i = 0; i < eventsRead; ++i) {
+      if (events[i].type == SDL_QUIT) {
+        _running = false;
+        break;
+      }
+    }
+  }
+
+  // Window
+  {
+    const int eventsRead = SDL_PeepEvents(events, maxEvents, SDL_GETEVENT, SDL_WINDOWEVENT, SDL_WINDOWEVENT);
+    for (int i = 0; i < eventsRead; ++i) {
+      if (events[i].window.event == SDL_WINDOWEVENT_RESIZED) {
+        _window->onResized(events[i].window.data1, events[i].window.data2);
+      }
     }
   }
 }

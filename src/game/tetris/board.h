@@ -14,6 +14,7 @@ public:
   }
 
   bool isBlockEmpty(int x, int y) const;
+  void setBlock(int x, int y, BlockId blockId);
 
   void reset();
   void render(Renderer& renderer);

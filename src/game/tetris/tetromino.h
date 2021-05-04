@@ -17,10 +17,12 @@ public:
   Tetromino(float blockSize);
 
   void randomize();
+  void clone(const Tetromino& rhs);
 
   void rotate();
   void setPosition(const glm::vec2& pos);
 
+  BlockId getBlockId() const;
   void getBlockCoordinates(const glm::ivec2& offset, std::vector<glm::ivec2>& coords) const;
   void getBlockCoordinatesAfterRotation(const glm::ivec2& offset, std::vector<glm::ivec2>& coords) const;
 

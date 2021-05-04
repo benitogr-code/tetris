@@ -17,6 +17,7 @@ public:
 
   bool init();
   void resize(int width, int height);
+  void onResized(int width, int height);
   void update();
 
 private:

@@ -11,10 +11,9 @@ enum KeyId {
 };
 
 enum InputState: unsigned int {
-  InputState_Unknown = 0,
-  InputState_Pressed = BIT(0),
-  InputState_Released = BIT(1),
-  InputState_Hold = BIT(2),
+  InputState_Pressed = 0,
+  InputState_Released = 1,
+  InputState_Hold = 2,
 };
 
 struct InputEvent {

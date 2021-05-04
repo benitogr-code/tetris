@@ -27,7 +27,7 @@ bool Window::init() {
 
   _window = SDL_CreateWindow(
     _title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-    _width, _height, SDL_WINDOW_OPENGL
+    _width, _height, SDL_WINDOW_OPENGL|SDL_WINDOW_RESIZABLE
   );
 
   if (_window == nullptr) {
@@ -50,6 +50,10 @@ bool Window::init() {
 
 void Window::resize(int width, int height) {
   SDL_SetWindowSize(_window, width, height);
+  glViewport(0, 0, width, height);
+}
+
+void Window::onResized(int width, int height) {
   glViewport(0, 0, width, height);
 }
 

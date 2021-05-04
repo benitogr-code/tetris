@@ -7,6 +7,27 @@
 #include "tetris/tetromino.h"
 #include "tetris/renderer.h"
 
+enum class GameState {
+  PreGame,
+  Running,
+  Paused,
+  GameOver
+};
+
+struct GameStats {
+  GameStats() {
+    reset();
+  }
+
+  void reset() {
+    score = 0;
+    lines = 0;
+  }
+
+  int score;
+  int lines;
+};
+
 class GameApp: public Application {
 public:
   GameApp();
@@ -19,17 +40,25 @@ protected:
   virtual void onUpdate(const UpdateContext& ctx) override;
 
 private:
+  void drawGameUI();
+  void drawBoard();
+  void drawBoardWithMessage(const std::string& message);
+  void changeGameState(GameState state);
   void moveTetromino(const glm::ivec2& boardLocation);
   void moveAndRotateTetromino(const glm::ivec2& boardLocation);
   void respawnTetromino();
 
 private:
   CameraOrthographic _camera;
-  Renderer _renderer;
+  Renderer           _renderer;
 
-  Board _board;
-  Tetromino  _tetromino;
-  glm::ivec2 _tetrominoBoardLocation;
+  Board      _board;
+  Tetromino  _uiTetromino;
+  Tetromino  _boardTetromino;
+  glm::ivec2 _boardTetrominoLocation;
+  float      _boardTetrominoNextMove;
+  float      _boardTetrominoSpeed;
 
-  Tetromino  _nextTetromino;
+  GameState _gameState = GameState::PreGame;
+  GameStats _stats;
 };

@@ -112,8 +112,7 @@ void GameApp::onInputEvent(const InputEvent& event) {
 }
 
 void GameApp::onUpdate(const UpdateContext& ctx) {
-  const auto& vpMatrix = _camera.getViewProjectionMatrix();
-  _renderer.beginFrame(vpMatrix);
+  _renderer.beginFrame(_camera.getViewProjectionMatrix());
 
   // Board and tetrominos
   _board.render(_renderer);
@@ -123,13 +122,13 @@ void GameApp::onUpdate(const UpdateContext& ctx) {
   // Game state message
   {
     const glm::vec2 textPos = _board.getOrigin() + glm::vec2(kBoardWidth / 4.0f, kBoardHeight * 0.6f);
-    _renderer.drawText("Game Over", textPos, kColorWhite, 1.25f, vpMatrix);
+    _renderer.drawText("Game Over", textPos, kColorWhite, 1.25f);
   }
 
   // Next tetromino
   {
     const glm::vec2 textPos = { kPadding, kViewportHeight - kFontSize - kPadding };
-    _renderer.drawText("Next", textPos, kColorWhite, 1.0f, vpMatrix);
+    _renderer.drawText("Next", textPos, kColorWhite, 1.0f);
 
     const glm::vec2 tetrominoPos = textPos - glm::vec2(0.0f, (kBlockSize * 4.0f) + kPadding);
     _nextTetromino.setPosition(tetrominoPos);
@@ -142,7 +141,7 @@ void GameApp::onUpdate(const UpdateContext& ctx) {
 
     for (int i = 0; i < messages.max_size(); ++i) {
       const glm::vec2 textPos = startPos - glm::vec2(0.0f, (kFontSize + kPadding) * i);
-      _renderer.drawText(messages[i], textPos, kColorWhite, 1.0f, vpMatrix);
+      _renderer.drawText(messages[i], textPos, kColorWhite, 1.0f);
     }
   }
 

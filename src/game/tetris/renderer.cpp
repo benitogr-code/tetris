@@ -157,7 +157,7 @@ void Renderer::drawBlock(const glm::vec2& position, BlockId id) {
   _blocksBatch.push_back({ position, (uint32_t)id });
 }
 
-void Renderer::drawText(const std::string& text, const glm::vec2& position, const glm::vec3& color, const float scale, const glm::mat4x4& viewProjection) {
+void Renderer::drawText(const std::string& text, const glm::vec2& position, const glm::vec3& color, const float scale) {
   TextMessage message;
   message.vertices.reserve(kMessageMaxLength * kCharVertices);
   message.color = color;

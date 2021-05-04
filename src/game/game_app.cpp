@@ -2,7 +2,7 @@
 
 static constexpr float kBlockSize = 32.0f;
 static constexpr float kPadding = 10.0f;
-static constexpr int   kFontSize = 24;
+static constexpr int   kFontSize = 20;
 
 static constexpr int kBoardColumns = 10;
 static constexpr int kBoardRows = 20;
@@ -121,8 +121,8 @@ void GameApp::onUpdate(const UpdateContext& ctx) {
 
   // Game state message
   {
-    const glm::vec2 textPos = _board.getOrigin() + glm::vec2(kBoardWidth / 4.0f, kBoardHeight * 0.6f);
-    _renderer.drawText("Game Over", textPos, kColorWhite, 1.25f);
+    const glm::vec2 textPos = _board.getOrigin() + glm::vec2(kBoardWidth / 2.0f, kBoardHeight * 0.6f);
+    _renderer.drawTextCentered("Press ENTER to play", textPos, kColorWhite, 1.0f);
   }
 
   // Next tetromino

@@ -185,10 +185,27 @@ void Renderer::drawText(const std::string& text, const glm::vec2& position, cons
     message.vertices.push_back({{ xpos + w, ypos }, { offsets[1], 1.0f }});
     message.vertices.push_back({{ xpos + w, ypos + h }, { offsets[1], 0.0f }});
 
-    xOffset += charInfo->advance.x * scale;
+    xOffset += (charInfo->advance.x * scale);
   }
 
   if (message.vertices.size() > 0) {
     _messagesBatch.emplace_back(message);
   }
+}
+
+void Renderer::drawTextCentered(const std::string& text, const glm::vec2& position, const glm::vec3& color, const float scale) {
+  const size_t textLength = std::min(text.length(), (size_t)kMessageMaxLength);
+  int totalWidth = 0;
+
+  for (size_t i = 0; i < textLength; ++i) {
+    const unsigned char c = text.at(i);
+    auto charInfo = _fontAtlas->getCharacterInfo(c);
+    if (charInfo == nullptr)
+      continue;
+
+    totalWidth += (charInfo->advance.x * scale);
+  }
+
+  const glm::vec2 startPosition = position - glm::vec2((float)totalWidth*0.5f, 0.0f);
+  drawText(text, startPosition, color, scale);
 }

@@ -43,9 +43,11 @@ public:
 
   void beginFrame(const glm::mat4x4& viewProjection);
   void endFrame();
+
   void setClearColor(const glm::vec3& color);
   void drawBlock(const glm::vec2& position, BlockId id);
   void drawText(const std::string& text, const glm::vec2& position, const glm::vec3& color, const float scale);
+  void drawTextCentered(const std::string& text, const glm::vec2& position, const glm::vec3& color, const float scale);
 
 private:
   ShaderRef  _blocksShader;

@@ -163,7 +163,7 @@ void Renderer::drawText(const std::string& text, const glm::vec2& position, cons
   message.color = color;
 
   const size_t textLength = std::min(text.length(), (size_t)kMessageMaxLength);
-  int xOffset = 0;
+  float xOffset = 0.0f;
 
   for (size_t i = 0; i < textLength; ++i) {
     const unsigned char c = text.at(i);
@@ -172,7 +172,7 @@ void Renderer::drawText(const std::string& text, const glm::vec2& position, cons
       continue;
 
     const float xpos = xOffset + position.x + (charInfo->bearing.x * scale);
-    const float ypos = position.y - (charInfo->size.y - charInfo->bearing.y) * scale;
+    const float ypos = position.y - (charInfo->size.y - (charInfo->bearing.y * scale));
 
     const float w = charInfo->size.x * scale;
     const float h = charInfo->size.y * scale;
@@ -195,7 +195,7 @@ void Renderer::drawText(const std::string& text, const glm::vec2& position, cons
 
 void Renderer::drawTextCentered(const std::string& text, const glm::vec2& position, const glm::vec3& color, const float scale) {
   const size_t textLength = std::min(text.length(), (size_t)kMessageMaxLength);
-  int totalWidth = 0;
+  float totalWidth = 0;
 
   for (size_t i = 0; i < textLength; ++i) {
     const unsigned char c = text.at(i);

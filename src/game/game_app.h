@@ -61,4 +61,5 @@ private:
 
   GameState _gameState = GameState::PreGame;
   GameStats _stats;
+  float     _gameTime = 0.0f;
 };

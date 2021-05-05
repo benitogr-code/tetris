@@ -150,11 +150,13 @@ void GameApp::onInputEvent(const InputEvent& event) {
 }
 
 void GameApp::onUpdate(const UpdateContext& ctx) {
+  _gameTime += ctx.frameTime;
+
   _renderer.beginFrame(_camera.getViewProjectionMatrix());
 
   switch (_gameState) {
     case GameState::PreGame: {
-      const float textScale = 2.0f;
+      const float textScale = 1.5f + ((sinf(_gameTime) + 1.0f)*0.3f);
       const glm::vec2 textPos = { kViewportWidth * 0.5f, (kViewportHeight * 0.5f) - (kFontSize * textScale * 0.5f)};
       _renderer.drawTextCentered("Press ENTER to play", textPos, kColorWhite, textScale);
     };
@@ -203,22 +205,22 @@ void GameApp::onUpdate(const UpdateContext& ctx) {
 
 void GameApp::drawGameUI() {
   {
-    const glm::vec2 textPos = { kPadding, kViewportHeight - kFontSize - kPadding };
-    _renderer.drawText("Next", textPos, kColorWhite, 1.0f);
+    const glm::vec2 topLeft = { kPadding * 1.5f, kViewportHeight - kFontSize - kPadding };
+    _renderer.drawText("Next", topLeft, kColorWhite, 1.2f);
 
-    const glm::vec2 tetrominoPos = textPos - glm::vec2(0.0f, (kBlockSize * 4.0f) + kPadding);
+    const glm::vec2 tetrominoPos = topLeft - glm::vec2(0.0f, (kBlockSize * 4.0f) + kPadding);
     _uiTetromino.setPosition(tetrominoPos);
     _uiTetromino.render(_renderer);
   }
 
   // Score
   {
-    const glm::vec2 startPos = { kPadding, kViewportHeight / 2 };
+    const glm::vec2 midLeft = { kPadding * 1.5f, kViewportHeight / 2 };
     const std::array<std::string, 4> messages = { "Score", std::to_string(_stats.score), "Lines", std::to_string(_stats.lines) };
 
     for (int i = 0; i < messages.max_size(); ++i) {
-      const glm::vec2 textPos = startPos - glm::vec2(0.0f, (kFontSize + kPadding) * i);
-      _renderer.drawText(messages[i], textPos, kColorWhite, 1.0f);
+      const glm::vec2 textPos = midLeft - glm::vec2(0.0f, (kFontSize + kPadding) * i);
+      _renderer.drawText(messages[i], textPos, kColorWhite, 1.2f);
     }
   }
 }

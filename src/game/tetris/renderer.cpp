@@ -82,6 +82,7 @@ void Renderer::init() {
     BufferLayout({
       { BufferItemType::Float2, "translation" },
       { BufferItemType::Int, "blockId" },
+      { BufferItemType::Float, "blinkFactor" }
     })
   );
   _vbBlocks->setFlag(VertexBuffer::Flag_Instance);
@@ -150,11 +151,11 @@ void Renderer::setClearColor(const glm::vec3& color) {
   _clearColor = color;
 }
 
-void Renderer::drawBlock(const glm::vec2& position, BlockId id) {
+void Renderer::drawBlock(const glm::vec2& position, BlockId id, float blink) {
   if (_blocksBatch.size() >= kMaxBlocks)
     return;
 
-  _blocksBatch.push_back({ position, (uint32_t)id });
+  _blocksBatch.push_back({ position, (uint32_t)id, blink });
 }
 
 void Renderer::drawText(const std::string& text, const glm::vec2& position, const glm::vec3& color, const float scale) {

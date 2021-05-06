@@ -26,6 +26,7 @@ private:
   struct BlockInstance {
     glm::vec2 translation;
     uint32_t  blockId;
+    float     blinkFactor;
   };
 
   struct TextVertex {
@@ -45,7 +46,7 @@ public:
   void endFrame();
 
   void setClearColor(const glm::vec3& color);
-  void drawBlock(const glm::vec2& position, BlockId id);
+  void drawBlock(const glm::vec2& position, BlockId id, float blink = 0.0f);
   void drawText(const std::string& text, const glm::vec2& position, const glm::vec3& color, const float scale);
   void drawTextCentered(const std::string& text, const glm::vec2& position, const glm::vec3& color, const float scale);
 

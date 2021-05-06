@@ -16,9 +16,12 @@ static constexpr float kViewportHeight = kBoardHeight + (kPadding*2.0f);
 static constexpr glm::vec3 kColorBlack = {0.0f, 0.0f, 0.0f};
 static constexpr glm::vec3 kColorWhite = {1.0f, 1.0f, 1.0f};
 
-static constexpr float kTetrominoMoveTime = 0.7f;
+static constexpr float kTetrominoMoveTime = 0.45f;
 static constexpr float kTetrominoNormalSpeed = 1.0f;
-static constexpr float kTetrominoDropSpeed = 8.0f;
+static constexpr float kTetrominoDropSpeed = 7.0f;
+
+static constexpr float kClearRowsTime = 0.7f;
+static constexpr std::array<uint32_t, 4> kScores = {50, 125, 250, 400};
 
 // Helpers
 bool canMoveTo(const Tetromino& tetromino, const Board& board, const glm::ivec2& location) {
@@ -162,29 +165,50 @@ void GameApp::onUpdate(const UpdateContext& ctx) {
     };
     break;
     case GameState::Running: {
-      const float nextMove = _boardTetrominoNextMove - (ctx.frameTime * _boardTetrominoSpeed);
-      if (nextMove <= 0.0f) {
-        const auto location = _boardTetrominoLocation + glm::ivec2(0, -1);
+      if (_clearingRows) {
+        _clearRowsTimeout -= ctx.frameTime;
 
-        if (canMoveTo(_boardTetromino, _board, location)) {
-          moveTetromino(location);
+        if (_clearRowsTimeout <= 0.0f) {
+          auto count = _board.clearFullRows();
+          _stats.lines += count;
+          _stats.score += kScores[count-1];
+          _clearRowsTimeout = -1.0f;
+          _clearingRows = false;
         }
-        else {
-          addToBoard(_boardTetromino, _board, _boardTetrominoLocation);
-          respawnTetromino();
-
-          if (!canMoveTo(_boardTetromino, _board, _boardTetrominoLocation)) {
-            changeGameState(GameState::GameOver);
-          }
-        }
-
-        _boardTetrominoNextMove = kTetrominoMoveTime + nextMove;
       }
       else {
-        _boardTetrominoNextMove = nextMove;
+        const float nextMove = _boardTetrominoNextMove - (ctx.frameTime * _boardTetrominoSpeed);
+        if (nextMove <= 0.0f) {
+          const auto location = _boardTetrominoLocation + glm::ivec2(0, -1);
+
+          if (canMoveTo(_boardTetromino, _board, location)) {
+            moveTetromino(location);
+          }
+          else {
+            addToBoard(_boardTetromino, _board, _boardTetrominoLocation);
+            respawnTetromino();
+
+            if (!canMoveTo(_boardTetromino, _board, _boardTetrominoLocation)) {
+              changeGameState(GameState::GameOver);
+            }
+            else if (_board.hasFullRows()){
+              _clearingRows = true;
+              _clearRowsTimeout = kClearRowsTime;
+            }
+          }
+
+          _boardTetrominoNextMove = kTetrominoMoveTime + nextMove;
+        }
+        else {
+          _boardTetrominoNextMove = nextMove;
+        }
       }
 
-      drawBoard();
+      if (_clearingRows)
+        drawBoardClearing(1.0f - (_clearRowsTimeout / kClearRowsTime));
+      else
+        drawBoard();
+
       drawGameUI();
     }
     break;
@@ -230,6 +254,10 @@ void GameApp::drawBoard() {
   _boardTetromino.render(_renderer);
 }
 
+void GameApp::drawBoardClearing(float clearingPercentage) {
+  _board.render(_renderer, clearingPercentage);
+}
+
 void GameApp::drawBoardWithMessage(const std::string& message) {
   drawBoard();
 
@@ -243,6 +271,8 @@ void GameApp::changeGameState(GameState state) {
 
   if (state == GameState::PreGame) {
     _board.reset();
+    _stats.score = 0;
+    _stats.lines = 0;
   }
   else if (state == GameState::Running) {
     if (_gameState == GameState::PreGame) {

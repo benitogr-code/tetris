@@ -42,6 +42,7 @@ protected:
 private:
   void drawGameUI();
   void drawBoard();
+  void drawBoardClearing(float clearingPercentage);
   void drawBoardWithMessage(const std::string& message);
   void changeGameState(GameState state);
   void moveTetromino(const glm::ivec2& boardLocation);
@@ -62,4 +63,6 @@ private:
   GameState _gameState = GameState::PreGame;
   GameStats _stats;
   float     _gameTime = 0.0f;
+  float     _clearRowsTimeout = -1.0f;
+  bool      _clearingRows = false;
 };

@@ -1,8 +1,12 @@
 # Tetris
 
-An implementation of the classic game Tetris using _SDL_ and _OpenGL_.
+An implementation of the classic game **Tetris** using _SDL_ and _OpenGL_.
 
-This project is organized in two distintic parts.
+See it in action in this ![video](https://user-images.githubusercontent.com/53510560/117455455-7d9e5780-af47-11eb-9583-2873258b8944.mp4).
+
+---
+
+The project is organized in two distintic parts.
 
 ### System
 
@@ -11,5 +15,3 @@ Abstracts platform details (window, input, logging), providing a basic framework
 ### Game
 
 The Tetris game application implemented used the system utilities. For rendering, batching and instancing are used to reduce the number of draw calls.
-
-Check it out in action in this [video](/assets/media/demo.mp4).

@@ -9,7 +9,7 @@ int startApplication(const StartupParams& params) {
 
   LOG_INFO("Initializing application...");
 
-  FileUtils::init();
+  FileUtils::init(params.assetsFolder);
 
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     LOG_ERROR("Fail to initialize SDL");

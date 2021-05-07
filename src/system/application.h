@@ -44,7 +44,8 @@ typedef std::function<Application* ()> ApplicationCreator;
 
 struct StartupParams {
   ApplicationCreator appCreatorFunc;
-  WindowDesc windowDesc;
+  WindowDesc  windowDesc;
+  std::string assetsFolder;
 };
 
 int startApplication(const StartupParams& params);

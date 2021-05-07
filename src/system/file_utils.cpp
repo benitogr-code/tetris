@@ -8,9 +8,14 @@
 
 std::string FileUtils::_assetsFolder;
 
-void FileUtils::init() {
-  auto path = std::filesystem::current_path();
-  _assetsFolder = path.parent_path().generic_string().append("/assets/");
+void FileUtils::init(const std::string& assetsFolder) {
+  if (!assetsFolder.empty()) {
+    _assetsFolder = assetsFolder;
+  }
+  else {
+    auto path = std::filesystem::current_path();
+    _assetsFolder = path.generic_string().append("/assets/");
+  }
 
   LOG_INFO("Assets folder path: {}", _assetsFolder);
 }
